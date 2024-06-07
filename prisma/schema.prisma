@@ -5,6 +5,10 @@ generator client {
     provider = "prisma-client-js"
 }
 
+generator zod {
+  provider = "zod-prisma-types"
+}
+
 datasource db {
     provider = "postgresql"
     url      = env("DATABASE_URL")
@@ -17,4 +21,14 @@ model Post {
     updatedAt DateTime @updatedAt
 
     @@index([name])
+}
+
+
+model User {
+  id             String       @id @unique // The id is created by Kinde
+  createdAt      DateTime     @default(now())
+  email          String       @unique
+  firstName      String
+  lastName       String
+
 }
