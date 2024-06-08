@@ -11,6 +11,9 @@ export const env = createEnv({
     NODE_ENV: z
       .enum(["development", "test", "production"])
       .default("development"),
+    KINDE_CLIENT_ID: z.string(),
+    KINDE_CLIENT_SECRET: z.string(),
+    KINDE_ISSUER_URL: z.string(),
   },
 
   /**
@@ -29,6 +32,9 @@ export const env = createEnv({
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,
     NODE_ENV: process.env.NODE_ENV,
+    KINDE_CLIENT_ID: process.env.KINDE_CLIENT_ID,
+    KINDE_CLIENT_SECRET: process.env.KINDE_CLIENT_SECRET,
+    KINDE_ISSUER_URL: process.env.KINDE_ISSUER_URL,
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },
   /**
