@@ -5,10 +5,11 @@ export default async function middleware(req: NextRequest) {
   const { isAuthenticated } = getKindeServerSession();
   const loggedIn = await isAuthenticated();
   const isApiAuthRoute = req.nextUrl.pathname.startsWith(apiAuthPrefix);
+  const isApiEmailRoute = req.nextUrl.pathname.startsWith(apiEmailPrefix);
   const isPublicRoute = publicRoutes.includes(req.nextUrl.pathname);
   const isSignInRoute = signInRoutes.includes(req.nextUrl.pathname);
 
-  if (isApiAuthRoute) return;
+  if (isApiAuthRoute || isApiEmailRoute) return;
   if (!loggedIn && !isPublicRoute)
     return NextResponse.redirect(new URL("/", req.nextUrl));
   if (loggedIn && isSignInRoute)
@@ -21,5 +22,6 @@ export const config = {
 };
 
 const apiAuthPrefix = "/api/auth";
+const apiEmailPrefix = "/api/email";
 const publicRoutes = ["/", "/welcome"];
 const signInRoutes = ["/", "/welcome"];

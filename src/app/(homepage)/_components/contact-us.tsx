@@ -8,28 +8,63 @@ import {
   Title,
   Button,
   Container,
+  Text,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { useEffect, useState } from "react";
+import { type EmailFormData } from "~/types/types";
+import { sendEmail } from "~/utils/send-email";
 
 export function ContactUs() {
-  const form = useForm({
+  const [formSubmitted, setFormSubmitted] = useState(false);
+
+  useEffect(() => {
+    if (formSubmitted) {
+      const timer = setTimeout(() => {
+        setFormSubmitted(false);
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [formSubmitted]);
+
+  const form = useForm<EmailFormData>({
+    mode: "uncontrolled",
     initialValues: {
       name: "",
       email: "",
       subject: "",
       message: "",
+      page: "homepage-contact-us-form",
     },
     validate: {
-      name: (value) => value.trim().length < 2,
-      email: (value) => !/^\S+@\S+$/.test(value),
-      subject: (value) => value.trim().length === 0,
+      name: (value) =>
+        value.trim().length < 2
+          ? "Name must be at least 2 characters"
+          : undefined,
+      email: (value) =>
+        value.length < 1
+          ? "Email is required"
+          : !/^\S+@\S+$/.test(value)
+          ? "Invalid email"
+          : undefined,
+      subject: (value) =>
+        value.trim().length === 0 ? "Subject is required" : undefined,
+      message: (value) =>
+        value.trim().length === 0 ? "Message is required" : undefined,
     },
   });
 
+  const handleSubmit = (data: EmailFormData) => {
+    console.log("data in handleSubmit", data);
+    sendEmail(data);
+    form.reset();
+    setFormSubmitted(true);
+  };
   return (
     <form
-      onSubmit={form.onSubmit(() => {
-        console.log("submitted");
+      onSubmit={form.onSubmit((values) => {
+        handleSubmit(values);
       })}
     >
       <Container size="sm" pt="xl" mt="xl">
@@ -49,6 +84,7 @@ export function ContactUs() {
             placeholder="Your name"
             name="name"
             variant="filled"
+            key={form.key("name")}
             {...form.getInputProps("name")}
           />
           <TextInput
@@ -56,6 +92,7 @@ export function ContactUs() {
             placeholder="Your email"
             name="email"
             variant="filled"
+            key={form.key("email")}
             {...form.getInputProps("email")}
           />
         </SimpleGrid>
@@ -66,6 +103,7 @@ export function ContactUs() {
           mt="md"
           name="subject"
           variant="filled"
+          key={form.key("subject")}
           {...form.getInputProps("subject")}
         />
         <Textarea
@@ -77,6 +115,7 @@ export function ContactUs() {
           autosize
           name="message"
           variant="filled"
+          key={form.key("message")}
           {...form.getInputProps("message")}
         />
 
@@ -85,6 +124,12 @@ export function ContactUs() {
             Send message
           </Button>
         </Group>
+        {formSubmitted && (
+          <Text ta="center" mt="lg" c="green">
+            Thank you for submitting the form. You will receive an email from us
+            soon.
+          </Text>
+        )}
       </Container>
     </form>
   );
