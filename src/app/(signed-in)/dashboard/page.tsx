@@ -1,6 +1,5 @@
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import React from "react";
-import LogOutButton from "../_components/log-out-button";
 
 export default async function Page() {
   const { getUser } = getKindeServerSession();
@@ -8,8 +7,7 @@ export default async function Page() {
 
   return (
     <div>
-      <h1>Dashboard {user?.email}</h1>
-      <LogOutButton />
+      <h1>Dashboard Welcome - {user?.email}</h1>
     </div>
   );
 }
