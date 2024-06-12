@@ -6,7 +6,7 @@ export async function GET() {
   const { getUser } = getKindeServerSession();
   const user = await getUser();
 
-  if (!user?.id) redirect("/welcome");
+  if (!user?.id) redirect("/");
 
   let dbUser = await api.user.userById({ id: user.id });
 
