@@ -23,5 +23,5 @@ export const config = {
 
 const apiAuthPrefix = "/api/auth";
 const apiEmailPrefix = "/api/email";
-const publicRoutes = ["/", "/welcome"];
-const signInRoutes = ["/", "/welcome"];
+const publicRoutes = ["/", "/welcome", "/about"];
+const signInRoutes = ["/", "/welcome", "/about"];
