@@ -79,14 +79,14 @@ export function Header() {
           </Link>
 
           <Group h="100%" gap={0} visibleFrom="sm">
-            <Link href="#" className={classes.link}>
+            <Link href="/" className={classes.link}>
               Home
             </Link>
 
             <Link href="#" className={classes.link}>
               Features
             </Link>
-            <Link href="#" className={classes.link}>
+            <Link href="/about" className={classes.link}>
               About
             </Link>
             <Link href="#" className={classes.link}>
