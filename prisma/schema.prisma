@@ -2,7 +2,7 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 generator zod {
@@ -10,25 +10,109 @@ generator zod {
 }
 
 datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
-
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    @@index([name])
-}
-
 
 model User {
-  id             String       @id @unique // The id is created by Kinde
-  createdAt      DateTime     @default(now())
-  email          String       @unique
-  firstName      String
-  lastName       String
+  id        String   @id @unique // The id is created by Kinde
+  createdAt DateTime @default(now())
+  email     String   @unique
+  firstName String
+  lastName  String
+  profile   Profile?
+}
 
+model Profile {
+  id                 Int                @id @default(autoincrement())
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+  age                Int
+  gender             Gender
+  height             Float
+  weight             Float
+  activityLevel      ActivityLevel
+  exerciseExperience ExerciseExperience
+  userID             String             @unique
+  user               User               @relation(fields: [userID], references: [id])
+  goal               Goal?
+}
+
+model Goal {
+  id                 Int                @id @default(autoincrement())
+  profileId          Int                @unique
+  profile            Profile            @relation(fields: [profileId], references: [id])
+  goalType           PrimaryGoal
+  targetWeight       Float
+  workoutFrequency   WorkoutFrequency
+  workoutDuration    WorkoutDuration
+  locationPreference LocationPreference
+  startDate          DateTime
+  endDate            DateTime?
+  status             GoalStatus         @default(ACTIVE)
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+  progress           Progress[]
+}
+
+model Progress {
+  id             Int      @id @default(autoincrement())
+  goalId         Int
+  goal           Goal     @relation(fields: [goalId], references: [id])
+  progressWeight Float
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum PrimaryGoal {
+  WEIGHT_LOSS
+  WEIGHT_GAIN
+  MUSCLE_GAIN
+  IMPROVE_ENDURANCE
+  INCREASE_FLEXIBILITY
+}
+
+enum ActivityLevel {
+  SEDENTARY
+  LIGHTLY_ACTIVE
+  MODERATELY_ACTIVE
+  VERY_ACTIVE
+}
+
+enum ExerciseExperience {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+}
+
+enum WorkoutFrequency {
+  ONE_DAY
+  TWO_DAYS
+  THREE_DAYS
+  FOUR_DAYS
+  FIVE_DAYS
+  SIX_DAYS
+  SEVEN_DAYS
+}
+
+enum WorkoutDuration {
+  THIRTY_MINUTES
+  FORTY_FIVE_MINUTES
+  SIXTY_MINUTES
+  NINETY_MINUTES
+}
+
+enum LocationPreference {
+  HOME
+  GYM
+}
+
+enum GoalStatus {
+  ACTIVE
+  COMPLETED
 }
