@@ -10,6 +10,8 @@ import {
   Select,
 } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
+import { type Profile } from "@prisma/client";
+import { useRouter } from "next/navigation";
 import {
   ActivityLevelMapping,
   ActivityLevelOptions,
@@ -17,20 +19,32 @@ import {
   ExerciseExperienceOptions,
   GenderMapping,
   GenderOptions,
+  activityLevelReverseMapping,
+  exerciseExperienceReverseMapping,
+  genderReverseMapping,
   type ProfileWithoutGoalType,
 } from "~/app/types/general-types";
 import { api } from "~/trpc/react";
 
-export function ProfileForm() {
+export function ProfileForm(props: { profile?: Profile | undefined }) {
+  const { profile } = props;
+  const router = useRouter();
+
   const form = useForm<ProfileWithoutGoalType>({
     mode: "uncontrolled",
     initialValues: {
-      age: undefined,
-      gender: undefined,
-      height: undefined,
-      weight: undefined,
-      activityLevel: undefined,
-      exerciseExperience: undefined,
+      age: profile?.age ?? undefined,
+      gender: profile?.gender
+        ? genderReverseMapping[profile.gender]
+        : undefined,
+      height: profile?.height ?? undefined,
+      weight: profile?.weight ?? undefined,
+      activityLevel: profile?.activityLevel
+        ? activityLevelReverseMapping[profile.activityLevel]
+        : undefined,
+      exerciseExperience: profile?.exerciseExperience
+        ? exerciseExperienceReverseMapping[profile.exerciseExperience]
+        : undefined,
     },
     validate: {
       age: isNotEmpty("Please enter your age"),
@@ -45,6 +59,17 @@ export function ProfileForm() {
   const createProfile = api.profile.create.useMutation({
     onSuccess: (data) => {
       console.log("Successfully created profile with data", data);
+      router.push("/dashboard");
+    },
+    onError: (err) => {
+      console.log("Error creating profile", err);
+    },
+  });
+
+  const updateProfile = api.profile.update.useMutation({
+    onSuccess: (data) => {
+      console.log("Successfully updated profile with data", data);
+      router.push("/dashboard");
     },
     onError: (err) => {
       console.log("Error creating profile", err);
@@ -64,14 +89,29 @@ export function ProfileForm() {
     )
       return;
 
-    createProfile.mutate({
-      age: data.age,
-      height: data.height,
-      weight: data.weight,
-      activityLevel: ActivityLevelMapping[data.activityLevel],
-      gender: GenderMapping[data.gender],
-      exerciseExperience: ExerciseExperienceMapping[data.exerciseExperience],
-    });
+    if (profile) {
+      updateProfile.mutate({
+        id: profile.id,
+        input: {
+          age: data.age,
+          height: data.height,
+          weight: data.weight,
+          activityLevel: ActivityLevelMapping[data.activityLevel],
+          gender: GenderMapping[data.gender],
+          exerciseExperience:
+            ExerciseExperienceMapping[data.exerciseExperience],
+        },
+      });
+    } else {
+      createProfile.mutate({
+        age: data.age,
+        height: data.height,
+        weight: data.weight,
+        activityLevel: ActivityLevelMapping[data.activityLevel],
+        gender: GenderMapping[data.gender],
+        exerciseExperience: ExerciseExperienceMapping[data.exerciseExperience],
+      });
+    }
   };
 
   return (
@@ -82,7 +122,9 @@ export function ProfileForm() {
     >
       <Container size="sm" pt="xl" mt="xl">
         <Title order={2}>
-          Please fill in the information to create your profile.
+          {profile
+            ? "Update Profile"
+            : "Please fill in the information to create your profile."}
         </Title>
         <SimpleGrid cols={{ base: 1, sm: 2 }} mt="xl">
           <NumberInput
@@ -150,7 +192,7 @@ export function ProfileForm() {
 
         <Group justify="center" mt="xl">
           <Button type="submit" size="md">
-            Create Profile
+            {profile ? "Update Profile" : "Create Profile"}
           </Button>
         </Group>
       </Container>

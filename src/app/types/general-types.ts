@@ -47,3 +47,27 @@ export const ExerciseExperienceMapping: Record<
   Intermediate: ExerciseExperience.INTERMEDIATE,
   Advanced: ExerciseExperience.ADVANCED,
 };
+
+export const genderReverseMapping: Record<Gender, DisplayGender> = {
+  MALE: "Male",
+  FEMALE: "Female",
+};
+
+export const activityLevelReverseMapping: Record<
+  ActivityLevel,
+  DisplayActivityLevel
+> = {
+  SEDENTARY: "Sedentary",
+  LIGHTLY_ACTIVE: "Lightly Active",
+  MODERATELY_ACTIVE: "Moderately Active",
+  VERY_ACTIVE: "Very Active",
+};
+
+export const exerciseExperienceReverseMapping: Record<
+  ExerciseExperience,
+  DisplayExerciseExperience
+> = {
+  BEGINNER: "Beginner",
+  INTERMEDIATE: "Intermediate",
+  ADVANCED: "Advanced",
+};
