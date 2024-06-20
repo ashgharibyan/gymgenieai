@@ -15,7 +15,7 @@ export function StatCard({ title, value, icon: Icon }: StatCardProps) {
         <ThemeIcon size={60} radius={60} variant="white">
           <Icon style={{ width: rem(32), height: rem(32) }} stroke={1.5} />
         </ThemeIcon>
-        <Stack gap="md" p="xl" flex={1}>
+        <Stack gap={1} p="xl" flex={1}>
           <Title order={2} fw={900} c="white">
             {title}
           </Title>

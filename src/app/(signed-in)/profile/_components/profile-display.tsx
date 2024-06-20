@@ -31,7 +31,11 @@ export default function ProfileDisplay(props: { profile: Profile }) {
   const { profile } = props;
   const [openUpdateProfile, setOpenUpdateProfile] = useState(false);
   const profileInfo = [
-    { title: "Age", value: profile.age.toString(), icon: IconCalendar },
+    {
+      title: "Age",
+      value: profile.age.toString() + " years old",
+      icon: IconCalendar,
+    },
     {
       title: "Gender",
       value: genderReverseMapping[profile.gender],
