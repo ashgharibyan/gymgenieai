@@ -14,6 +14,17 @@ export const profileRouter = createTRPCRouter({
       });
       return profile;
     }),
+  update: protectedProcedure
+    .input(
+      z.object({ id: z.number(), input: ProfileCreateWithoutUserInputSchema })
+    )
+    .mutation(async ({ input }) => {
+      const { id, input: profileInput } = input;
+      return await db.profile.update({
+        where: { id },
+        data: profileInput,
+      });
+    }),
   getByID: protectedProcedure
     .input(z.object({ id: z.number() }))
     .query(async (opts) => {
