@@ -8,7 +8,7 @@ export async function GET() {
 
   if (!user?.id) redirect("/");
 
-  let dbUser = await api.user.userById({ id: user.id });
+  let dbUser = await api.user.getById({ id: user.id });
 
   if (!dbUser) {
     dbUser = await api.user.userCreate({

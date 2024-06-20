@@ -1,13 +1,13 @@
 "use client";
 
 import {
-  IconSettings,
   IconLogout,
   IconDashboard,
   IconGymnastics,
   IconMeat,
   IconTarget,
   IconProgress,
+  IconUserCircle,
 } from "@tabler/icons-react";
 import classes from "../_styles/navbar.module.css";
 import { NavLink } from "@mantine/core";
@@ -41,13 +41,13 @@ export function Navbar() {
       <div className={classes.navbarMain}>{links}</div>
       <div className={classes.footer}>
         <NavLink
-          href="/settings"
+          href="/profile"
           className={classes.link}
           leftSection={
-            <IconSettings className={classes.linkIcon} stroke={1.5} />
+            <IconUserCircle className={classes.linkIcon} stroke={1.5} />
           }
-          active={pn.includes("/settings")}
-          label="Settings"
+          active={pn.includes("/profle")}
+          label="Profle"
         ></NavLink>
 
         <NavLink
