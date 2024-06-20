@@ -3,21 +3,24 @@ import { db } from "~/server/db";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { UserCreateManyInputSchema } from "prisma/generated/zod";
 
-const byUserId = async (userId: string) => {
-  // Retrieve the user with the given ID
-  const user = await db.user.findUnique({
-    where: { id: userId },
-  });
-  return user;
-};
-
 export const userRouter = createTRPCRouter({
-  userById: publicProcedure
+  getById: publicProcedure
     .input(z.object({ id: z.string() }))
     .query(async (opts) => {
       const { input } = opts;
       // Retrieve the user with the given ID
-      return byUserId(input.id);
+      return await db.user.findUnique({
+        where: { id: input.id },
+      });
+    }),
+  getByIdWithProfile: publicProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async (opts) => {
+      const { input } = opts;
+      return await db.user.findUnique({
+        where: { id: input.id },
+        include: { profile: true },
+      });
     }),
   userCreate: publicProcedure
     .input(UserCreateManyInputSchema)
