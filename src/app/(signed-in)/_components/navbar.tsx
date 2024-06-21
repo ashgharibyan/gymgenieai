@@ -18,7 +18,7 @@ const data = [
   { link: "/dashboard", label: "Dashboard", icon: IconDashboard },
   { link: "/workouts", label: "Workouts", icon: IconGymnastics },
   { link: "/meals", label: "Meals", icon: IconMeat },
-  { link: "/goals", label: "Goals", icon: IconTarget },
+  { link: "/goal", label: "Goal", icon: IconTarget },
   { link: "/progress", label: "Progress", icon: IconProgress },
 ];
 
@@ -46,8 +46,8 @@ export function Navbar() {
           leftSection={
             <IconUserCircle className={classes.linkIcon} stroke={1.5} />
           }
-          active={pn.includes("/profle")}
-          label="Profle"
+          active={pn.includes("/profile")}
+          label="Profile"
         ></NavLink>
 
         <NavLink

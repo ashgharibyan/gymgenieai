@@ -29,4 +29,15 @@ export const goalRouter = createTRPCRouter({
       });
       return goal;
     }),
+  getByProfileId: protectedProcedure
+    .input(z.object({ profileId: z.number() }))
+    .query(async ({ input }) => {
+      const { profileId } = input;
+
+      const goal = await db.goal.findUnique({
+        where: { profileId: profileId },
+        include: { profile: true, progress: true },
+      });
+      return goal;
+    }),
 });
