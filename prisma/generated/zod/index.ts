@@ -16,15 +16,13 @@ export const UserScalarFieldEnumSchema = z.enum(['id','createdAt','email','first
 
 export const ProfileScalarFieldEnumSchema = z.enum(['id','createdAt','updatedAt','age','gender','height','weight','activityLevel','exerciseExperience','userID']);
 
-export const GoalScalarFieldEnumSchema = z.enum(['id','profileId','goalType','targetWeight','workoutFrequency','workoutDuration','locationPreference','startDate','endDate','status','createdAt','updatedAt']);
+export const GoalScalarFieldEnumSchema = z.enum(['id','profileId','goalType','targetWeight','workoutFrequency','workoutDuration','locationPreference','createdAt','updatedAt']);
 
 export const ProgressScalarFieldEnumSchema = z.enum(['id','goalId','progressWeight','createdAt','updatedAt']);
 
 export const SortOrderSchema = z.enum(['asc','desc']);
 
 export const QueryModeSchema = z.enum(['default','insensitive']);
-
-export const NullsOrderSchema = z.enum(['first','last']);
 
 export const GenderSchema = z.enum(['MALE','FEMALE']);
 
@@ -104,12 +102,9 @@ export const GoalSchema = z.object({
   workoutFrequency: WorkoutFrequencySchema,
   workoutDuration: WorkoutDurationSchema,
   locationPreference: LocationPreferenceSchema,
-  status: GoalStatusSchema,
   id: z.number().int(),
   profileId: z.number().int(),
   targetWeight: z.number(),
-  startDate: z.coerce.date(),
-  endDate: z.coerce.date().nullable(),
   createdAt: z.coerce.date(),
   updatedAt: z.coerce.date(),
 })
@@ -213,9 +208,6 @@ export const GoalSelectSchema: z.ZodType<Prisma.GoalSelect> = z.object({
   workoutFrequency: z.boolean().optional(),
   workoutDuration: z.boolean().optional(),
   locationPreference: z.boolean().optional(),
-  startDate: z.boolean().optional(),
-  endDate: z.boolean().optional(),
-  status: z.boolean().optional(),
   createdAt: z.boolean().optional(),
   updatedAt: z.boolean().optional(),
   profile: z.union([z.boolean(),z.lazy(() => ProfileArgsSchema)]).optional(),
@@ -424,9 +416,6 @@ export const GoalWhereInputSchema: z.ZodType<Prisma.GoalWhereInput> = z.object({
   workoutFrequency: z.union([ z.lazy(() => EnumWorkoutFrequencyFilterSchema),z.lazy(() => WorkoutFrequencySchema) ]).optional(),
   workoutDuration: z.union([ z.lazy(() => EnumWorkoutDurationFilterSchema),z.lazy(() => WorkoutDurationSchema) ]).optional(),
   locationPreference: z.union([ z.lazy(() => EnumLocationPreferenceFilterSchema),z.lazy(() => LocationPreferenceSchema) ]).optional(),
-  startDate: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
-  endDate: z.union([ z.lazy(() => DateTimeNullableFilterSchema),z.coerce.date() ]).optional().nullable(),
-  status: z.union([ z.lazy(() => EnumGoalStatusFilterSchema),z.lazy(() => GoalStatusSchema) ]).optional(),
   createdAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
   updatedAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
   profile: z.union([ z.lazy(() => ProfileRelationFilterSchema),z.lazy(() => ProfileWhereInputSchema) ]).optional(),
@@ -441,9 +430,6 @@ export const GoalOrderByWithRelationInputSchema: z.ZodType<Prisma.GoalOrderByWit
   workoutFrequency: z.lazy(() => SortOrderSchema).optional(),
   workoutDuration: z.lazy(() => SortOrderSchema).optional(),
   locationPreference: z.lazy(() => SortOrderSchema).optional(),
-  startDate: z.lazy(() => SortOrderSchema).optional(),
-  endDate: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
-  status: z.lazy(() => SortOrderSchema).optional(),
   createdAt: z.lazy(() => SortOrderSchema).optional(),
   updatedAt: z.lazy(() => SortOrderSchema).optional(),
   profile: z.lazy(() => ProfileOrderByWithRelationInputSchema).optional(),
@@ -473,9 +459,6 @@ export const GoalWhereUniqueInputSchema: z.ZodType<Prisma.GoalWhereUniqueInput> 
   workoutFrequency: z.union([ z.lazy(() => EnumWorkoutFrequencyFilterSchema),z.lazy(() => WorkoutFrequencySchema) ]).optional(),
   workoutDuration: z.union([ z.lazy(() => EnumWorkoutDurationFilterSchema),z.lazy(() => WorkoutDurationSchema) ]).optional(),
   locationPreference: z.union([ z.lazy(() => EnumLocationPreferenceFilterSchema),z.lazy(() => LocationPreferenceSchema) ]).optional(),
-  startDate: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
-  endDate: z.union([ z.lazy(() => DateTimeNullableFilterSchema),z.coerce.date() ]).optional().nullable(),
-  status: z.union([ z.lazy(() => EnumGoalStatusFilterSchema),z.lazy(() => GoalStatusSchema) ]).optional(),
   createdAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
   updatedAt: z.union([ z.lazy(() => DateTimeFilterSchema),z.coerce.date() ]).optional(),
   profile: z.union([ z.lazy(() => ProfileRelationFilterSchema),z.lazy(() => ProfileWhereInputSchema) ]).optional(),
@@ -490,9 +473,6 @@ export const GoalOrderByWithAggregationInputSchema: z.ZodType<Prisma.GoalOrderBy
   workoutFrequency: z.lazy(() => SortOrderSchema).optional(),
   workoutDuration: z.lazy(() => SortOrderSchema).optional(),
   locationPreference: z.lazy(() => SortOrderSchema).optional(),
-  startDate: z.lazy(() => SortOrderSchema).optional(),
-  endDate: z.union([ z.lazy(() => SortOrderSchema),z.lazy(() => SortOrderInputSchema) ]).optional(),
-  status: z.lazy(() => SortOrderSchema).optional(),
   createdAt: z.lazy(() => SortOrderSchema).optional(),
   updatedAt: z.lazy(() => SortOrderSchema).optional(),
   _count: z.lazy(() => GoalCountOrderByAggregateInputSchema).optional(),
@@ -513,9 +493,6 @@ export const GoalScalarWhereWithAggregatesInputSchema: z.ZodType<Prisma.GoalScal
   workoutFrequency: z.union([ z.lazy(() => EnumWorkoutFrequencyWithAggregatesFilterSchema),z.lazy(() => WorkoutFrequencySchema) ]).optional(),
   workoutDuration: z.union([ z.lazy(() => EnumWorkoutDurationWithAggregatesFilterSchema),z.lazy(() => WorkoutDurationSchema) ]).optional(),
   locationPreference: z.union([ z.lazy(() => EnumLocationPreferenceWithAggregatesFilterSchema),z.lazy(() => LocationPreferenceSchema) ]).optional(),
-  startDate: z.union([ z.lazy(() => DateTimeWithAggregatesFilterSchema),z.coerce.date() ]).optional(),
-  endDate: z.union([ z.lazy(() => DateTimeNullableWithAggregatesFilterSchema),z.coerce.date() ]).optional().nullable(),
-  status: z.union([ z.lazy(() => EnumGoalStatusWithAggregatesFilterSchema),z.lazy(() => GoalStatusSchema) ]).optional(),
   createdAt: z.union([ z.lazy(() => DateTimeWithAggregatesFilterSchema),z.coerce.date() ]).optional(),
   updatedAt: z.union([ z.lazy(() => DateTimeWithAggregatesFilterSchema),z.coerce.date() ]).optional(),
 }).strict();
@@ -737,9 +714,6 @@ export const GoalCreateInputSchema: z.ZodType<Prisma.GoalCreateInput> = z.object
   workoutFrequency: z.lazy(() => WorkoutFrequencySchema),
   workoutDuration: z.lazy(() => WorkoutDurationSchema),
   locationPreference: z.lazy(() => LocationPreferenceSchema),
-  startDate: z.coerce.date(),
-  endDate: z.coerce.date().optional().nullable(),
-  status: z.lazy(() => GoalStatusSchema).optional(),
   createdAt: z.coerce.date().optional(),
   updatedAt: z.coerce.date().optional(),
   profile: z.lazy(() => ProfileCreateNestedOneWithoutGoalInputSchema),
@@ -754,9 +728,6 @@ export const GoalUncheckedCreateInputSchema: z.ZodType<Prisma.GoalUncheckedCreat
   workoutFrequency: z.lazy(() => WorkoutFrequencySchema),
   workoutDuration: z.lazy(() => WorkoutDurationSchema),
   locationPreference: z.lazy(() => LocationPreferenceSchema),
-  startDate: z.coerce.date(),
-  endDate: z.coerce.date().optional().nullable(),
-  status: z.lazy(() => GoalStatusSchema).optional(),
   createdAt: z.coerce.date().optional(),
   updatedAt: z.coerce.date().optional(),
   progress: z.lazy(() => ProgressUncheckedCreateNestedManyWithoutGoalInputSchema).optional()
@@ -768,9 +739,6 @@ export const GoalUpdateInputSchema: z.ZodType<Prisma.GoalUpdateInput> = z.object
   workoutFrequency: z.union([ z.lazy(() => WorkoutFrequencySchema),z.lazy(() => EnumWorkoutFrequencyFieldUpdateOperationsInputSchema) ]).optional(),
   workoutDuration: z.union([ z.lazy(() => WorkoutDurationSchema),z.lazy(() => EnumWorkoutDurationFieldUpdateOperationsInputSchema) ]).optional(),
   locationPreference: z.union([ z.lazy(() => LocationPreferenceSchema),z.lazy(() => EnumLocationPreferenceFieldUpdateOperationsInputSchema) ]).optional(),
-  startDate: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
-  endDate: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
-  status: z.union([ z.lazy(() => GoalStatusSchema),z.lazy(() => EnumGoalStatusFieldUpdateOperationsInputSchema) ]).optional(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   profile: z.lazy(() => ProfileUpdateOneRequiredWithoutGoalNestedInputSchema).optional(),
@@ -785,9 +753,6 @@ export const GoalUncheckedUpdateInputSchema: z.ZodType<Prisma.GoalUncheckedUpdat
   workoutFrequency: z.union([ z.lazy(() => WorkoutFrequencySchema),z.lazy(() => EnumWorkoutFrequencyFieldUpdateOperationsInputSchema) ]).optional(),
   workoutDuration: z.union([ z.lazy(() => WorkoutDurationSchema),z.lazy(() => EnumWorkoutDurationFieldUpdateOperationsInputSchema) ]).optional(),
   locationPreference: z.union([ z.lazy(() => LocationPreferenceSchema),z.lazy(() => EnumLocationPreferenceFieldUpdateOperationsInputSchema) ]).optional(),
-  startDate: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
-  endDate: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
-  status: z.union([ z.lazy(() => GoalStatusSchema),z.lazy(() => EnumGoalStatusFieldUpdateOperationsInputSchema) ]).optional(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   progress: z.lazy(() => ProgressUncheckedUpdateManyWithoutGoalNestedInputSchema).optional()
@@ -801,9 +766,6 @@ export const GoalCreateManyInputSchema: z.ZodType<Prisma.GoalCreateManyInput> = 
   workoutFrequency: z.lazy(() => WorkoutFrequencySchema),
   workoutDuration: z.lazy(() => WorkoutDurationSchema),
   locationPreference: z.lazy(() => LocationPreferenceSchema),
-  startDate: z.coerce.date(),
-  endDate: z.coerce.date().optional().nullable(),
-  status: z.lazy(() => GoalStatusSchema).optional(),
   createdAt: z.coerce.date().optional(),
   updatedAt: z.coerce.date().optional()
 }).strict();
@@ -814,9 +776,6 @@ export const GoalUpdateManyMutationInputSchema: z.ZodType<Prisma.GoalUpdateManyM
   workoutFrequency: z.union([ z.lazy(() => WorkoutFrequencySchema),z.lazy(() => EnumWorkoutFrequencyFieldUpdateOperationsInputSchema) ]).optional(),
   workoutDuration: z.union([ z.lazy(() => WorkoutDurationSchema),z.lazy(() => EnumWorkoutDurationFieldUpdateOperationsInputSchema) ]).optional(),
   locationPreference: z.union([ z.lazy(() => LocationPreferenceSchema),z.lazy(() => EnumLocationPreferenceFieldUpdateOperationsInputSchema) ]).optional(),
-  startDate: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
-  endDate: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
-  status: z.union([ z.lazy(() => GoalStatusSchema),z.lazy(() => EnumGoalStatusFieldUpdateOperationsInputSchema) ]).optional(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
 }).strict();
@@ -829,9 +788,6 @@ export const GoalUncheckedUpdateManyInputSchema: z.ZodType<Prisma.GoalUncheckedU
   workoutFrequency: z.union([ z.lazy(() => WorkoutFrequencySchema),z.lazy(() => EnumWorkoutFrequencyFieldUpdateOperationsInputSchema) ]).optional(),
   workoutDuration: z.union([ z.lazy(() => WorkoutDurationSchema),z.lazy(() => EnumWorkoutDurationFieldUpdateOperationsInputSchema) ]).optional(),
   locationPreference: z.union([ z.lazy(() => LocationPreferenceSchema),z.lazy(() => EnumLocationPreferenceFieldUpdateOperationsInputSchema) ]).optional(),
-  startDate: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
-  endDate: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
-  status: z.union([ z.lazy(() => GoalStatusSchema),z.lazy(() => EnumGoalStatusFieldUpdateOperationsInputSchema) ]).optional(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
 }).strict();
@@ -1171,24 +1127,6 @@ export const EnumLocationPreferenceFilterSchema: z.ZodType<Prisma.EnumLocationPr
   not: z.union([ z.lazy(() => LocationPreferenceSchema),z.lazy(() => NestedEnumLocationPreferenceFilterSchema) ]).optional(),
 }).strict();
 
-export const DateTimeNullableFilterSchema: z.ZodType<Prisma.DateTimeNullableFilter> = z.object({
-  equals: z.coerce.date().optional().nullable(),
-  in: z.coerce.date().array().optional().nullable(),
-  notIn: z.coerce.date().array().optional().nullable(),
-  lt: z.coerce.date().optional(),
-  lte: z.coerce.date().optional(),
-  gt: z.coerce.date().optional(),
-  gte: z.coerce.date().optional(),
-  not: z.union([ z.coerce.date(),z.lazy(() => NestedDateTimeNullableFilterSchema) ]).optional().nullable(),
-}).strict();
-
-export const EnumGoalStatusFilterSchema: z.ZodType<Prisma.EnumGoalStatusFilter> = z.object({
-  equals: z.lazy(() => GoalStatusSchema).optional(),
-  in: z.lazy(() => GoalStatusSchema).array().optional(),
-  notIn: z.lazy(() => GoalStatusSchema).array().optional(),
-  not: z.union([ z.lazy(() => GoalStatusSchema),z.lazy(() => NestedEnumGoalStatusFilterSchema) ]).optional(),
-}).strict();
-
 export const ProfileRelationFilterSchema: z.ZodType<Prisma.ProfileRelationFilter> = z.object({
   is: z.lazy(() => ProfileWhereInputSchema).optional(),
   isNot: z.lazy(() => ProfileWhereInputSchema).optional()
@@ -1198,11 +1136,6 @@ export const ProgressListRelationFilterSchema: z.ZodType<Prisma.ProgressListRela
   every: z.lazy(() => ProgressWhereInputSchema).optional(),
   some: z.lazy(() => ProgressWhereInputSchema).optional(),
   none: z.lazy(() => ProgressWhereInputSchema).optional()
-}).strict();
-
-export const SortOrderInputSchema: z.ZodType<Prisma.SortOrderInput> = z.object({
-  sort: z.lazy(() => SortOrderSchema),
-  nulls: z.lazy(() => NullsOrderSchema).optional()
 }).strict();
 
 export const ProgressOrderByRelationAggregateInputSchema: z.ZodType<Prisma.ProgressOrderByRelationAggregateInput> = z.object({
@@ -1217,9 +1150,6 @@ export const GoalCountOrderByAggregateInputSchema: z.ZodType<Prisma.GoalCountOrd
   workoutFrequency: z.lazy(() => SortOrderSchema).optional(),
   workoutDuration: z.lazy(() => SortOrderSchema).optional(),
   locationPreference: z.lazy(() => SortOrderSchema).optional(),
-  startDate: z.lazy(() => SortOrderSchema).optional(),
-  endDate: z.lazy(() => SortOrderSchema).optional(),
-  status: z.lazy(() => SortOrderSchema).optional(),
   createdAt: z.lazy(() => SortOrderSchema).optional(),
   updatedAt: z.lazy(() => SortOrderSchema).optional()
 }).strict();
@@ -1238,9 +1168,6 @@ export const GoalMaxOrderByAggregateInputSchema: z.ZodType<Prisma.GoalMaxOrderBy
   workoutFrequency: z.lazy(() => SortOrderSchema).optional(),
   workoutDuration: z.lazy(() => SortOrderSchema).optional(),
   locationPreference: z.lazy(() => SortOrderSchema).optional(),
-  startDate: z.lazy(() => SortOrderSchema).optional(),
-  endDate: z.lazy(() => SortOrderSchema).optional(),
-  status: z.lazy(() => SortOrderSchema).optional(),
   createdAt: z.lazy(() => SortOrderSchema).optional(),
   updatedAt: z.lazy(() => SortOrderSchema).optional()
 }).strict();
@@ -1253,9 +1180,6 @@ export const GoalMinOrderByAggregateInputSchema: z.ZodType<Prisma.GoalMinOrderBy
   workoutFrequency: z.lazy(() => SortOrderSchema).optional(),
   workoutDuration: z.lazy(() => SortOrderSchema).optional(),
   locationPreference: z.lazy(() => SortOrderSchema).optional(),
-  startDate: z.lazy(() => SortOrderSchema).optional(),
-  endDate: z.lazy(() => SortOrderSchema).optional(),
-  status: z.lazy(() => SortOrderSchema).optional(),
   createdAt: z.lazy(() => SortOrderSchema).optional(),
   updatedAt: z.lazy(() => SortOrderSchema).optional()
 }).strict();
@@ -1304,30 +1228,6 @@ export const EnumLocationPreferenceWithAggregatesFilterSchema: z.ZodType<Prisma.
   _count: z.lazy(() => NestedIntFilterSchema).optional(),
   _min: z.lazy(() => NestedEnumLocationPreferenceFilterSchema).optional(),
   _max: z.lazy(() => NestedEnumLocationPreferenceFilterSchema).optional()
-}).strict();
-
-export const DateTimeNullableWithAggregatesFilterSchema: z.ZodType<Prisma.DateTimeNullableWithAggregatesFilter> = z.object({
-  equals: z.coerce.date().optional().nullable(),
-  in: z.coerce.date().array().optional().nullable(),
-  notIn: z.coerce.date().array().optional().nullable(),
-  lt: z.coerce.date().optional(),
-  lte: z.coerce.date().optional(),
-  gt: z.coerce.date().optional(),
-  gte: z.coerce.date().optional(),
-  not: z.union([ z.coerce.date(),z.lazy(() => NestedDateTimeNullableWithAggregatesFilterSchema) ]).optional().nullable(),
-  _count: z.lazy(() => NestedIntNullableFilterSchema).optional(),
-  _min: z.lazy(() => NestedDateTimeNullableFilterSchema).optional(),
-  _max: z.lazy(() => NestedDateTimeNullableFilterSchema).optional()
-}).strict();
-
-export const EnumGoalStatusWithAggregatesFilterSchema: z.ZodType<Prisma.EnumGoalStatusWithAggregatesFilter> = z.object({
-  equals: z.lazy(() => GoalStatusSchema).optional(),
-  in: z.lazy(() => GoalStatusSchema).array().optional(),
-  notIn: z.lazy(() => GoalStatusSchema).array().optional(),
-  not: z.union([ z.lazy(() => GoalStatusSchema),z.lazy(() => NestedEnumGoalStatusWithAggregatesFilterSchema) ]).optional(),
-  _count: z.lazy(() => NestedIntFilterSchema).optional(),
-  _min: z.lazy(() => NestedEnumGoalStatusFilterSchema).optional(),
-  _max: z.lazy(() => NestedEnumGoalStatusFilterSchema).optional()
 }).strict();
 
 export const GoalRelationFilterSchema: z.ZodType<Prisma.GoalRelationFilter> = z.object({
@@ -1519,14 +1419,6 @@ export const EnumWorkoutDurationFieldUpdateOperationsInputSchema: z.ZodType<Pris
 
 export const EnumLocationPreferenceFieldUpdateOperationsInputSchema: z.ZodType<Prisma.EnumLocationPreferenceFieldUpdateOperationsInput> = z.object({
   set: z.lazy(() => LocationPreferenceSchema).optional()
-}).strict();
-
-export const NullableDateTimeFieldUpdateOperationsInputSchema: z.ZodType<Prisma.NullableDateTimeFieldUpdateOperationsInput> = z.object({
-  set: z.coerce.date().optional().nullable()
-}).strict();
-
-export const EnumGoalStatusFieldUpdateOperationsInputSchema: z.ZodType<Prisma.EnumGoalStatusFieldUpdateOperationsInput> = z.object({
-  set: z.lazy(() => GoalStatusSchema).optional()
 }).strict();
 
 export const ProfileUpdateOneRequiredWithoutGoalNestedInputSchema: z.ZodType<Prisma.ProfileUpdateOneRequiredWithoutGoalNestedInput> = z.object({
@@ -1768,24 +1660,6 @@ export const NestedEnumLocationPreferenceFilterSchema: z.ZodType<Prisma.NestedEn
   not: z.union([ z.lazy(() => LocationPreferenceSchema),z.lazy(() => NestedEnumLocationPreferenceFilterSchema) ]).optional(),
 }).strict();
 
-export const NestedDateTimeNullableFilterSchema: z.ZodType<Prisma.NestedDateTimeNullableFilter> = z.object({
-  equals: z.coerce.date().optional().nullable(),
-  in: z.coerce.date().array().optional().nullable(),
-  notIn: z.coerce.date().array().optional().nullable(),
-  lt: z.coerce.date().optional(),
-  lte: z.coerce.date().optional(),
-  gt: z.coerce.date().optional(),
-  gte: z.coerce.date().optional(),
-  not: z.union([ z.coerce.date(),z.lazy(() => NestedDateTimeNullableFilterSchema) ]).optional().nullable(),
-}).strict();
-
-export const NestedEnumGoalStatusFilterSchema: z.ZodType<Prisma.NestedEnumGoalStatusFilter> = z.object({
-  equals: z.lazy(() => GoalStatusSchema).optional(),
-  in: z.lazy(() => GoalStatusSchema).array().optional(),
-  notIn: z.lazy(() => GoalStatusSchema).array().optional(),
-  not: z.union([ z.lazy(() => GoalStatusSchema),z.lazy(() => NestedEnumGoalStatusFilterSchema) ]).optional(),
-}).strict();
-
 export const NestedEnumPrimaryGoalWithAggregatesFilterSchema: z.ZodType<Prisma.NestedEnumPrimaryGoalWithAggregatesFilter> = z.object({
   equals: z.lazy(() => PrimaryGoalSchema).optional(),
   in: z.lazy(() => PrimaryGoalSchema).array().optional(),
@@ -1824,41 +1698,6 @@ export const NestedEnumLocationPreferenceWithAggregatesFilterSchema: z.ZodType<P
   _count: z.lazy(() => NestedIntFilterSchema).optional(),
   _min: z.lazy(() => NestedEnumLocationPreferenceFilterSchema).optional(),
   _max: z.lazy(() => NestedEnumLocationPreferenceFilterSchema).optional()
-}).strict();
-
-export const NestedDateTimeNullableWithAggregatesFilterSchema: z.ZodType<Prisma.NestedDateTimeNullableWithAggregatesFilter> = z.object({
-  equals: z.coerce.date().optional().nullable(),
-  in: z.coerce.date().array().optional().nullable(),
-  notIn: z.coerce.date().array().optional().nullable(),
-  lt: z.coerce.date().optional(),
-  lte: z.coerce.date().optional(),
-  gt: z.coerce.date().optional(),
-  gte: z.coerce.date().optional(),
-  not: z.union([ z.coerce.date(),z.lazy(() => NestedDateTimeNullableWithAggregatesFilterSchema) ]).optional().nullable(),
-  _count: z.lazy(() => NestedIntNullableFilterSchema).optional(),
-  _min: z.lazy(() => NestedDateTimeNullableFilterSchema).optional(),
-  _max: z.lazy(() => NestedDateTimeNullableFilterSchema).optional()
-}).strict();
-
-export const NestedIntNullableFilterSchema: z.ZodType<Prisma.NestedIntNullableFilter> = z.object({
-  equals: z.number().optional().nullable(),
-  in: z.number().array().optional().nullable(),
-  notIn: z.number().array().optional().nullable(),
-  lt: z.number().optional(),
-  lte: z.number().optional(),
-  gt: z.number().optional(),
-  gte: z.number().optional(),
-  not: z.union([ z.number(),z.lazy(() => NestedIntNullableFilterSchema) ]).optional().nullable(),
-}).strict();
-
-export const NestedEnumGoalStatusWithAggregatesFilterSchema: z.ZodType<Prisma.NestedEnumGoalStatusWithAggregatesFilter> = z.object({
-  equals: z.lazy(() => GoalStatusSchema).optional(),
-  in: z.lazy(() => GoalStatusSchema).array().optional(),
-  notIn: z.lazy(() => GoalStatusSchema).array().optional(),
-  not: z.union([ z.lazy(() => GoalStatusSchema),z.lazy(() => NestedEnumGoalStatusWithAggregatesFilterSchema) ]).optional(),
-  _count: z.lazy(() => NestedIntFilterSchema).optional(),
-  _min: z.lazy(() => NestedEnumGoalStatusFilterSchema).optional(),
-  _max: z.lazy(() => NestedEnumGoalStatusFilterSchema).optional()
 }).strict();
 
 export const ProfileCreateWithoutUserInputSchema: z.ZodType<Prisma.ProfileCreateWithoutUserInput> = z.object({
@@ -1954,9 +1793,6 @@ export const GoalCreateWithoutProfileInputSchema: z.ZodType<Prisma.GoalCreateWit
   workoutFrequency: z.lazy(() => WorkoutFrequencySchema),
   workoutDuration: z.lazy(() => WorkoutDurationSchema),
   locationPreference: z.lazy(() => LocationPreferenceSchema),
-  startDate: z.coerce.date(),
-  endDate: z.coerce.date().optional().nullable(),
-  status: z.lazy(() => GoalStatusSchema).optional(),
   createdAt: z.coerce.date().optional(),
   updatedAt: z.coerce.date().optional(),
   progress: z.lazy(() => ProgressCreateNestedManyWithoutGoalInputSchema).optional()
@@ -1969,9 +1805,6 @@ export const GoalUncheckedCreateWithoutProfileInputSchema: z.ZodType<Prisma.Goal
   workoutFrequency: z.lazy(() => WorkoutFrequencySchema),
   workoutDuration: z.lazy(() => WorkoutDurationSchema),
   locationPreference: z.lazy(() => LocationPreferenceSchema),
-  startDate: z.coerce.date(),
-  endDate: z.coerce.date().optional().nullable(),
-  status: z.lazy(() => GoalStatusSchema).optional(),
   createdAt: z.coerce.date().optional(),
   updatedAt: z.coerce.date().optional(),
   progress: z.lazy(() => ProgressUncheckedCreateNestedManyWithoutGoalInputSchema).optional()
@@ -2026,9 +1859,6 @@ export const GoalUpdateWithoutProfileInputSchema: z.ZodType<Prisma.GoalUpdateWit
   workoutFrequency: z.union([ z.lazy(() => WorkoutFrequencySchema),z.lazy(() => EnumWorkoutFrequencyFieldUpdateOperationsInputSchema) ]).optional(),
   workoutDuration: z.union([ z.lazy(() => WorkoutDurationSchema),z.lazy(() => EnumWorkoutDurationFieldUpdateOperationsInputSchema) ]).optional(),
   locationPreference: z.union([ z.lazy(() => LocationPreferenceSchema),z.lazy(() => EnumLocationPreferenceFieldUpdateOperationsInputSchema) ]).optional(),
-  startDate: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
-  endDate: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
-  status: z.union([ z.lazy(() => GoalStatusSchema),z.lazy(() => EnumGoalStatusFieldUpdateOperationsInputSchema) ]).optional(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   progress: z.lazy(() => ProgressUpdateManyWithoutGoalNestedInputSchema).optional()
@@ -2041,9 +1871,6 @@ export const GoalUncheckedUpdateWithoutProfileInputSchema: z.ZodType<Prisma.Goal
   workoutFrequency: z.union([ z.lazy(() => WorkoutFrequencySchema),z.lazy(() => EnumWorkoutFrequencyFieldUpdateOperationsInputSchema) ]).optional(),
   workoutDuration: z.union([ z.lazy(() => WorkoutDurationSchema),z.lazy(() => EnumWorkoutDurationFieldUpdateOperationsInputSchema) ]).optional(),
   locationPreference: z.union([ z.lazy(() => LocationPreferenceSchema),z.lazy(() => EnumLocationPreferenceFieldUpdateOperationsInputSchema) ]).optional(),
-  startDate: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
-  endDate: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
-  status: z.union([ z.lazy(() => GoalStatusSchema),z.lazy(() => EnumGoalStatusFieldUpdateOperationsInputSchema) ]).optional(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   progress: z.lazy(() => ProgressUncheckedUpdateManyWithoutGoalNestedInputSchema).optional()
@@ -2171,9 +1998,6 @@ export const GoalCreateWithoutProgressInputSchema: z.ZodType<Prisma.GoalCreateWi
   workoutFrequency: z.lazy(() => WorkoutFrequencySchema),
   workoutDuration: z.lazy(() => WorkoutDurationSchema),
   locationPreference: z.lazy(() => LocationPreferenceSchema),
-  startDate: z.coerce.date(),
-  endDate: z.coerce.date().optional().nullable(),
-  status: z.lazy(() => GoalStatusSchema).optional(),
   createdAt: z.coerce.date().optional(),
   updatedAt: z.coerce.date().optional(),
   profile: z.lazy(() => ProfileCreateNestedOneWithoutGoalInputSchema)
@@ -2187,9 +2011,6 @@ export const GoalUncheckedCreateWithoutProgressInputSchema: z.ZodType<Prisma.Goa
   workoutFrequency: z.lazy(() => WorkoutFrequencySchema),
   workoutDuration: z.lazy(() => WorkoutDurationSchema),
   locationPreference: z.lazy(() => LocationPreferenceSchema),
-  startDate: z.coerce.date(),
-  endDate: z.coerce.date().optional().nullable(),
-  status: z.lazy(() => GoalStatusSchema).optional(),
   createdAt: z.coerce.date().optional(),
   updatedAt: z.coerce.date().optional()
 }).strict();
@@ -2216,9 +2037,6 @@ export const GoalUpdateWithoutProgressInputSchema: z.ZodType<Prisma.GoalUpdateWi
   workoutFrequency: z.union([ z.lazy(() => WorkoutFrequencySchema),z.lazy(() => EnumWorkoutFrequencyFieldUpdateOperationsInputSchema) ]).optional(),
   workoutDuration: z.union([ z.lazy(() => WorkoutDurationSchema),z.lazy(() => EnumWorkoutDurationFieldUpdateOperationsInputSchema) ]).optional(),
   locationPreference: z.union([ z.lazy(() => LocationPreferenceSchema),z.lazy(() => EnumLocationPreferenceFieldUpdateOperationsInputSchema) ]).optional(),
-  startDate: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
-  endDate: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
-  status: z.union([ z.lazy(() => GoalStatusSchema),z.lazy(() => EnumGoalStatusFieldUpdateOperationsInputSchema) ]).optional(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   profile: z.lazy(() => ProfileUpdateOneRequiredWithoutGoalNestedInputSchema).optional()
@@ -2232,9 +2050,6 @@ export const GoalUncheckedUpdateWithoutProgressInputSchema: z.ZodType<Prisma.Goa
   workoutFrequency: z.union([ z.lazy(() => WorkoutFrequencySchema),z.lazy(() => EnumWorkoutFrequencyFieldUpdateOperationsInputSchema) ]).optional(),
   workoutDuration: z.union([ z.lazy(() => WorkoutDurationSchema),z.lazy(() => EnumWorkoutDurationFieldUpdateOperationsInputSchema) ]).optional(),
   locationPreference: z.union([ z.lazy(() => LocationPreferenceSchema),z.lazy(() => EnumLocationPreferenceFieldUpdateOperationsInputSchema) ]).optional(),
-  startDate: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
-  endDate: z.union([ z.coerce.date(),z.lazy(() => NullableDateTimeFieldUpdateOperationsInputSchema) ]).optional().nullable(),
-  status: z.union([ z.lazy(() => GoalStatusSchema),z.lazy(() => EnumGoalStatusFieldUpdateOperationsInputSchema) ]).optional(),
   createdAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
   updatedAt: z.union([ z.coerce.date(),z.lazy(() => DateTimeFieldUpdateOperationsInputSchema) ]).optional(),
 }).strict();

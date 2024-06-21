@@ -1,5 +1,6 @@
 import "~/styles/globals.css";
 import "@mantine/core/styles.css";
+import "@mantine/dates/styles.css";
 import { ColorSchemeScript, MantineProvider } from "@mantine/core";
 
 import { GeistSans } from "geist/font/sans";
