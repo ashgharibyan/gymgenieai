@@ -57,10 +57,7 @@ export function AboutHero() {
               help track our users personalized nutritional and fitness plans.
             </Text>
 
-            {/* Once the features page and its route are formed this
-            will send the user to the features page, sends users to
-            home page right now*/}
-            <Link href="/">
+            <Link href="/features">
               <Button
                 className={classes.cta}
                 size="lg"
