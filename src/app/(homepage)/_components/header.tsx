@@ -83,7 +83,7 @@ export function Header() {
               Home
             </Link>
 
-            <Link href="#" className={classes.link}>
+            <Link href="/features" className={classes.link}>
               Features
             </Link>
             <Link href="/about" className={classes.link}>

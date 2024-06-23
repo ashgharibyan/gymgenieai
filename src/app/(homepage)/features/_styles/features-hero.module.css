@@ -1,0 +1,38 @@
+.wrapper {
+    padding-top: calc(var(--mantine-spacing-xl) * 4);
+    padding-bottom: calc(var(--mantine-spacing-xl) * 4);
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+}
+
+.title {
+    font-family:
+    Greycliff CF,
+    var(--mantine-font-family);
+    font-weight: 900;
+    margin-bottom: var(--mantine-spacing-md);
+    text-align: center;
+
+    @media (max-width: $mantine-breakpoint-sm) {
+    font-size: rem(28px);
+    text-align: left;
+    font-size: 36px;
+    font-weight: bold;
+  }
+}
+
+.description {
+    text-align: center;
+    color: #000000;
+    margin-bottom: 40px;
+    @media (max-width: $mantine-breakpoint-sm) {
+    text-align: left;
+  }
+}
+
+.featureGrid {
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
