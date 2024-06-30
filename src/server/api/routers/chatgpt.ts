@@ -1,3 +1,4 @@
+export const maxDuration = 60;
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 
