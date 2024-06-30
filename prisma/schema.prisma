@@ -36,6 +36,7 @@ model Profile {
   userID             String             @unique
   user               User               @relation(fields: [userID], references: [id])
   goal               Goal?
+  workoutPlan        WorkoutPlan?
 }
 
 model Goal {
@@ -59,6 +60,32 @@ model Progress {
   progressWeight Float
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
+}
+
+model WorkoutPlan {
+  id        Int          @id @default(autoincrement())
+  workouts  WorkoutDay[]
+  profileId Int          @unique
+  profile   Profile      @relation(fields: [profileId], references: [id])
+}
+
+model WorkoutDay {
+  id            Int         @id @default(autoincrement())
+  day           String
+  workoutType   String
+  exercises     Exercise[]
+  notes         String
+  WorkoutPlan   WorkoutPlan @relation(fields: [WorkoutPlanId], references: [id])
+  WorkoutPlanId Int
+}
+
+model Exercise {
+  id           Int        @id @default(autoincrement())
+  name         String
+  sets         Int
+  reps         String
+  WorkoutDay   WorkoutDay @relation(fields: [workoutDayId], references: [id])
+  workoutDayId Int
 }
 
 enum Gender {

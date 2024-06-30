@@ -3,6 +3,7 @@ import { userRouter } from "./routers/user";
 import { profileRouter } from "./routers/profile";
 import { goalRouter } from "./routers/goal";
 import { openaiRouter } from "./routers/chatgpt";
+import { workoutPlanRouter } from "./routers/workout-plan";
 
 /**
  * This is the primary router for your server.
@@ -14,6 +15,7 @@ export const appRouter = createTRPCRouter({
   profile: profileRouter,
   goal: goalRouter,
   openai: openaiRouter,
+  workoutPlan: workoutPlanRouter,
 });
 
 // export type definition of API
