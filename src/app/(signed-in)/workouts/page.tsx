@@ -3,12 +3,6 @@ import React from "react";
 import { api } from "~/trpc/server";
 
 export default async function Page() {
-  // const openaiTest = await api.openai.generateWorkout();
-
-  // console.log("-----------------------OPEN AI TEST");
-  // console.log(openaiTest?.message?.content);
-  // console.log("-----------------------OPEN AI TEST");
-
   const { getUser } = getKindeServerSession();
   const kindeUser = await getUser();
   const user =

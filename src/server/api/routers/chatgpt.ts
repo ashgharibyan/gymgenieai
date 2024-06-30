@@ -83,12 +83,6 @@ export const openaiRouter = createTRPCRouter({
             Make sure to cover all the muscle areas split in the week (Back, Chest, Biceps, Triceps ...). Make sure that the total duration of those exercises are approximately the workout duration. Make sure you only split it to how many days are mentioned in the Workout Frequency by the user during the week. Do not give more days then the user mentioned in the Workout Frequency.
     `;
 
-      console.log("--------------------------");
-      console.log(profile);
-      console.log("--------------------------");
-      console.log(goal);
-      console.log("--------------------------");
-
       const response = await openai.chat.completions.create({
         model: "gpt-3.5-turbo",
         response_format: { type: "json_object" },
