@@ -1,3 +1,5 @@
+export const maxDuration = 60;
+
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import React from "react";
 import { api } from "~/trpc/server";
