@@ -1,4 +1,3 @@
-import { profile } from "console";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 import { z } from "zod";
 import { db } from "~/server/db";
@@ -24,11 +23,9 @@ export const workoutPlanRouter = createTRPCRouter({
         ),
       })
     )
-    .mutation(async ({ input, ctx }) => {
-      const userID = ctx.session.user.id;
-
+    .mutation(async ({ input }) => {
       const workoutDays = input.workouts;
-
+      const a = "day of the week";
       const workouts = {
         workouts: {
           create: workoutDays.map((workout) => ({

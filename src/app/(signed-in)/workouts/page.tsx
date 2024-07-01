@@ -1,7 +1,8 @@
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
-import { Title } from "@mantine/core";
 import React from "react";
 import { api } from "~/trpc/server";
+import WorkoutList from "./_components/workout-list";
+import CreateWorkout from "./_components/create-workout";
 
 export default async function Page() {
   const { getUser } = getKindeServerSession();
@@ -15,37 +16,8 @@ export default async function Page() {
   const goal = profile?.goal ?? undefined;
 
   if (profile?.workoutPlan) {
-    return (
-      <>
-        <Title order={1}>Workout Plan Exists</Title>
-      </>
-    );
+    return <WorkoutList workoutPlan={profile.workoutPlan} />;
   }
 
-  const workouts =
-    profile && goal
-      ? await api.openai.generateWorkout({
-          profile: profile,
-          goal: goal,
-        })
-      : undefined;
-
-  console.log(workouts);
-  console.log("----------");
-  console.log("type of workouts", typeof workouts);
-
-  const workoutPlan =
-    workouts && profile
-      ? await api.workoutPlan.create({
-          profileId: profile?.id,
-          workouts: workouts.workouts,
-        })
-      : undefined;
-
-  console.log(workoutPlan);
-  return (
-    <div>
-      <h1>Workout Plan Doesnt Exist </h1>
-    </div>
-  );
+  return <CreateWorkout profile={profile} goal={goal} />;
 }
