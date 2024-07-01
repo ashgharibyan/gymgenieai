@@ -19,7 +19,22 @@ export const userRouter = createTRPCRouter({
       const { input } = opts;
       return await db.user.findUnique({
         where: { id: input.id },
-        include: { profile: true },
+        include: {
+          profile: {
+            include: {
+              goal: true,
+              workoutPlan: {
+                include: {
+                  workouts: {
+                    include: {
+                      exercises: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       });
     }),
   userCreate: publicProcedure

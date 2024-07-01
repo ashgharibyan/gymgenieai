@@ -1,3 +1,4 @@
+export const maxDuration = 60;
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 
@@ -18,7 +19,7 @@ export const openaiRouter = createTRPCRouter({
 
       type responseType =
         | {
-            workoutPlan: {
+            workouts: {
               day: string;
               workoutType: string;
               exercises: {
@@ -34,7 +35,7 @@ export const openaiRouter = createTRPCRouter({
         | "";
 
       const exampleJSON: responseType = {
-        workoutPlan: [
+        workouts: [
           {
             day: "day of the week",
             workoutType: "workout type",
@@ -81,27 +82,39 @@ export const openaiRouter = createTRPCRouter({
             5. Any additional tips or notes
 
             Make sure to cover all the muscle areas split in the week (Back, Chest, Biceps, Triceps ...). Make sure that the total duration of those exercises are approximately the workout duration. Make sure you only split it to how many days are mentioned in the Workout Frequency by the user during the week. Do not give more days then the user mentioned in the Workout Frequency.
+
+            If there are empty days, you can fill them with rest days and nothing else. If possible based on the schedule, put the rest days inbetween and not one after the other. DO NOT put the rest days one after the other. Make sure to include a warm-up and cool-down routine in each workout session. Make sure to include a variety of exercises to target different muscle groups. Make sure to include the number of sets and reps for each exercise. Make sure to include any additional tips or notes for the user. Make sure to include the type of workout for each day (e.g., Cardio, Strength Training, Flexibility, etc.). Make sure to include the exact gym exercise names for each exercise.
     `;
 
-      const response = await openai.chat.completions.create({
-        model: "gpt-3.5-turbo",
-        response_format: { type: "json_object" },
-        messages: [
-          {
-            role: "system",
-            content:
-              "You are a gym trainer. You are going to give a workout plan based on the user's details. Give the response in valid JSON format" +
-              "The data schema should look like this: " +
-              JSON.stringify(exampleJSON),
-          },
-          { role: "user", content: systemContent },
-        ],
-        temperature: 0.2,
-      });
+      console.log("IN OPENAI ROUTER");
+      const response = await openai.chat.completions
+        .create({
+          model: "gpt-4o-2024-05-13",
+          response_format: { type: "json_object" },
+          messages: [
+            {
+              role: "system",
+              content:
+                "You are a gym trainer. You are going to give a workout plan based on the user's details. Give the response in valid JSON format" +
+                "The data schema should look like this: " +
+                JSON.stringify(exampleJSON),
+            },
+            { role: "user", content: systemContent },
+          ],
+          temperature: 0.5,
+        })
+        .then((res) => {
+          return res;
+        })
+        .catch((err) => {
+          console.error(err);
+          throw new Error("Error in chat completion");
+        });
 
       const content = response.choices[0]?.message.content;
       const obj: responseType =
         content && (JSON.parse(content) as responseType);
+
       return obj;
     }),
 });

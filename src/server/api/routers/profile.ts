@@ -31,6 +31,9 @@ export const profileRouter = createTRPCRouter({
       const { input } = opts;
       return await db.profile.findUnique({
         where: { id: input.id },
+        include: {
+          workoutPlan: true,
+        },
       });
     }),
 });

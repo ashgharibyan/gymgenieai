@@ -1,6 +1,10 @@
+export const maxDuration = 60;
+
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import React from "react";
 import { api } from "~/trpc/server";
+import WorkoutList from "./_components/workout-list";
+import CreateWorkout from "./_components/create-workout";
 
 export default async function Page() {
   const { getUser } = getKindeServerSession();
@@ -11,22 +15,11 @@ export default async function Page() {
       : undefined;
 
   const profile = user?.profile ?? undefined;
-  const goal = profile
-    ? await api.goal.getByProfileId({ profileId: profile?.id })
-    : undefined;
+  const goal = profile?.goal ?? undefined;
 
-  const workouts =
-    profile && goal
-      ? await api.openai.generateWorkout({
-          profile: profile,
-          goal: goal,
-        })
-      : undefined;
+  if (profile?.workoutPlan) {
+    return <WorkoutList workoutPlan={profile.workoutPlan} />;
+  }
 
-  console.log(workouts);
-  return (
-    <div>
-      <h1>Workouts </h1>
-    </div>
-  );
+  return <CreateWorkout profile={profile} goal={goal} />;
 }
