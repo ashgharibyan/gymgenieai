@@ -41,22 +41,18 @@ export default function CreateWorkout(props: {
       return;
     }
 
-    await generateWorkouts
-      ?.refetch()
-      .then((workouts) => {
-        if (!workouts?.data) {
-          console.log("Workouts are undefined");
-          return;
-        }
-        createWorkoutPlan.mutate({
-          profileId: profile.id,
-          workouts: workouts.data.workouts,
-        });
-      })
-      .catch((error) => {
-        console.error("Error fetching workouts", error);
-        return undefined;
-      });
+    const workouts = await generateWorkouts?.refetch();
+
+    if (!workouts?.data) {
+      console.log("Workouts are undefined");
+      return;
+    }
+    createWorkoutPlan.mutate({
+      profileId: profile.id,
+      workouts: workouts.data.workouts,
+    });
+
+    console.log("Workouts", workouts.data);
   };
 
   return (

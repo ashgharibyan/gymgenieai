@@ -25,7 +25,6 @@ export const workoutPlanRouter = createTRPCRouter({
     )
     .mutation(async ({ input }) => {
       const workoutDays = input.workouts;
-      const a = "day of the week";
       const workouts = {
         workouts: {
           create: workoutDays.map((workout) => ({

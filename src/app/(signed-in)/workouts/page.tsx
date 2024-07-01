@@ -12,8 +12,14 @@ export default async function Page() {
       ? await api.user.getByIdWithProfile({ id: kindeUser.id })
       : undefined;
 
+  console.log("IN WORKOUTS PAGE - kindeuser", kindeUser);
+  console.log("IN WORKOUTS PAGE - user", user);
+
   const profile = user?.profile ?? undefined;
+  console.log("IN WORKOUTS PAGE - profile", profile);
   const goal = profile?.goal ?? undefined;
+  console.log("IN WORKOUTS PAGE - goal", goal);
+  console.log("IN WORKOUTS PAGE - profile.workoutPlan", profile?.workoutPlan);
 
   if (profile?.workoutPlan) {
     return <WorkoutList workoutPlan={profile.workoutPlan} />;
