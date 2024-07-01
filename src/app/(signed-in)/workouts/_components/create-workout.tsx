@@ -1,7 +1,8 @@
 "use client";
 export const maxDuration = 60;
 
-import { Button, Container, Title } from "@mantine/core";
+import { Box, Button, Container, LoadingOverlay, Title } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import { type Goal, type Profile } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -13,6 +14,7 @@ export default function CreateWorkout(props: {
 }) {
   const { profile, goal } = props;
   const router = useRouter();
+  const [visible, { toggle }] = useDisclosure(false);
 
   const generateWorkouts =
     profile && goal
@@ -37,6 +39,7 @@ export default function CreateWorkout(props: {
   });
 
   const handleCreateWorkouts = async () => {
+    toggle();
     if (!profile || !goal) {
       console.log("Profile or Goal is undefined");
       return;
@@ -55,9 +58,18 @@ export default function CreateWorkout(props: {
   };
 
   return (
-    <Container>
-      <Title>No Workouts Generated Yet</Title>
-      <Button onClick={handleCreateWorkouts}>Create Workout</Button>
-    </Container>
+    <>
+      <Box pos="relative">
+        <LoadingOverlay
+          visible={visible}
+          zIndex={1000}
+          overlayProps={{ radius: "sm", blur: 2 }}
+        />
+      </Box>
+      <Container>
+        <Title>No Workouts Generated Yet</Title>
+        <Button onClick={handleCreateWorkouts}>Create Workout</Button>
+      </Container>
+    </>
   );
 }

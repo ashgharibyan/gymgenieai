@@ -102,6 +102,7 @@ export const openaiRouter = createTRPCRouter({
             { role: "user", content: systemContent },
           ],
           temperature: 0.5,
+          stream: false,
         })
         .then((res) => {
           return res;
