@@ -1,6 +1,5 @@
+"use client";
 export const maxDuration = 60;
-
-("use client");
 
 import { Button, Container, Title } from "@mantine/core";
 import { type Goal, type Profile } from "@prisma/client";
