@@ -68,6 +68,7 @@ export default function CreateWorkout(props: {
       </Box>
       <Container>
         <Title>No Workouts Generated Yet</Title>
+        <Title>No Workouts Generated Yet</Title>
         <Button onClick={handleCreateWorkouts}>Create Workout</Button>
       </Container>
     </>
