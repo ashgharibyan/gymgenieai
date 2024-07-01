@@ -24,7 +24,6 @@ export default function WorkoutList(props: {
   workoutPlan: WorkoutPlanWithWorkouts;
 }) {
   const { workoutPlan } = props;
-  console.log("workoutPlan", workoutPlan);
   return (
     <Container>
       <Title> You Have Workouts</Title>

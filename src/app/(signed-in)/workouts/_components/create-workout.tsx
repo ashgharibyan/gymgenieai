@@ -51,8 +51,6 @@ export default function CreateWorkout(props: {
       profileId: profile.id,
       workouts: workouts.data.workouts,
     });
-
-    console.log("Workouts", workouts.data);
   };
 
   return (

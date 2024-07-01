@@ -17,8 +17,6 @@ export const openaiRouter = createTRPCRouter({
     .query(async ({ input }) => {
       const { profile, goal } = input;
 
-      console.log("PROFILE", profile);
-      console.log("GOAL", goal);
       type responseType =
         | {
             workouts: {
@@ -116,11 +114,7 @@ export const openaiRouter = createTRPCRouter({
       const content = response.choices[0]?.message.content;
       const obj: responseType =
         content && (JSON.parse(content) as responseType);
-      console.log("_____________________________");
-      console.log("_____________________________");
-      console.log("_____________________________");
-      console.log("_____________________________");
-      console.log(obj);
+
       return obj;
     }),
 });
