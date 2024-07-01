@@ -1,7 +1,8 @@
 "use client";
 
-import { Container, Title } from "@mantine/core";
+import { Box, Title } from "@mantine/core";
 import React from "react";
+import WorkoutCard from "./workout-card";
 
 type WorkoutPlanWithWorkouts = {
   id: number;
@@ -25,26 +26,11 @@ export default function WorkoutList(props: {
 }) {
   const { workoutPlan } = props;
   return (
-    <Container>
-      <Title> You Have Workouts</Title>
-      {workoutPlan.workouts.map((workout) => {
-        return (
-          <div key={workout.id}>
-            <Title order={3}>{workout.day}</Title>
-            <Title order={4}>{workout.workoutType}</Title>
-            <ul>
-              {workout.exercises.map((exercise) => {
-                return (
-                  <li key={exercise.id}>
-                    {exercise.name} - {exercise.sets} sets - {exercise.reps}
-                  </li>
-                );
-              })}
-            </ul>
-            <p>{workout.notes}</p>
-          </div>
-        );
-      })}
-    </Container>
+    <Box px="lg">
+      <Title mb="xl"> Your Personalized Workout Plan</Title>
+      {workoutPlan.workouts.map((workout) => (
+        <WorkoutCard key={workout.id} workoutDay={workout} />
+      ))}
+    </Box>
   );
 }

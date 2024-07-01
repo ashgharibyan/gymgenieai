@@ -83,7 +83,7 @@ export const openaiRouter = createTRPCRouter({
 
             Make sure to cover all the muscle areas split in the week (Back, Chest, Biceps, Triceps ...). Make sure that the total duration of those exercises are approximately the workout duration. Make sure you only split it to how many days are mentioned in the Workout Frequency by the user during the week. Do not give more days then the user mentioned in the Workout Frequency.
 
-            If there are empty days, you can fill them with rest days and nothing else. If possible based on the schedule, put the rest days inbetween and not one after the other. DO NOT put the rest days one after the other. Make sure to include a warm-up and cool-down routine in each workout session. Make sure to include a variety of exercises to target different muscle groups. Make sure to include the number of sets and reps for each exercise. Make sure to include any additional tips or notes for the user. Make sure to include the type of workout for each day (e.g., Cardio, Strength Training, Flexibility, etc.). Make sure to include the exact gym exercise names for each exercise.
+            If there are empty days, you can fill them with rest days and nothing else, the workoutType of rest days shoudl exactly say "Rest Day". If possible based on the schedule, put the rest days inbetween and not one after the other. DO NOT put the rest days one after the other. Make sure to include a warm-up and cool-down routine in each workout session. Make sure to include a variety of exercises to target different muscle groups. Make sure to include the number of sets and reps for each exercise. Make sure to include any additional tips or notes for the user. Make sure to include the type of workout for each day (e.g., Cardio, Strength Training, Flexibility, etc.). Make sure to include the exact gym exercise names for each exercise.
     `;
 
       console.log("IN OPENAI ROUTER");
@@ -96,7 +96,7 @@ export const openaiRouter = createTRPCRouter({
               role: "system",
               content:
                 "You are a gym trainer. You are going to give a workout plan based on the user's details. Give the response in valid JSON format" +
-                "The data schema should look like this: " +
+                "The data schema should always look like this: " +
                 JSON.stringify(exampleJSON),
             },
             { role: "user", content: systemContent },
