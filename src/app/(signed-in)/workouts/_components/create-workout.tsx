@@ -1,5 +1,4 @@
 "use client";
-export const maxDuration = 60;
 
 import { Box, Button, Container, LoadingOverlay, Title } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
