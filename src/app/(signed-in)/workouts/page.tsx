@@ -1,5 +1,3 @@
-export const maxDuration = 60;
-
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import React from "react";
 import { api } from "~/trpc/server";
@@ -18,7 +16,13 @@ export default async function Page() {
   const goal = profile?.goal ?? undefined;
 
   if (profile?.workoutPlan) {
-    return <WorkoutList workoutPlan={profile.workoutPlan} />;
+    return (
+      <WorkoutList
+        profile={profile}
+        goal={goal}
+        workoutPlan={profile.workoutPlan}
+      />
+    );
   }
 
   return <CreateWorkout profile={profile} goal={goal} />;

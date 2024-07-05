@@ -1,17 +1,18 @@
 "use client";
 
 import {
-  SimpleGrid,
   Group,
   Title,
   Button,
   Container,
   NumberInput,
   Select,
+  Stack,
 } from "@mantine/core";
 import { isNotEmpty, useForm } from "@mantine/form";
 import { type Profile } from "@prisma/client";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import {
   ActivityLevelMapping,
   ActivityLevelOptions,
@@ -29,6 +30,7 @@ import { api } from "~/trpc/react";
 export function ProfileForm(props: { profile?: Profile | undefined }) {
   const { profile } = props;
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const form = useForm<ProfileWithoutGoalType>({
     mode: "uncontrolled",
@@ -58,25 +60,31 @@ export function ProfileForm(props: { profile?: Profile | undefined }) {
 
   const createProfile = api.profile.create.useMutation({
     onSuccess: (data) => {
+      setLoading(false);
       console.log("Successfully created profile with data", data);
       router.push("/dashboard");
     },
     onError: (err) => {
+      setLoading(false);
       console.log("Error creating profile", err);
     },
   });
 
   const updateProfile = api.profile.update.useMutation({
     onSuccess: (data) => {
+      setLoading(false);
       console.log("Successfully updated profile with data", data);
       router.push("/dashboard");
     },
     onError: (err) => {
+      setLoading(false);
+
       console.log("Error creating profile", err);
     },
   });
 
   const handleSubmit = (data: ProfileWithoutGoalType) => {
+    setLoading(true);
     console.log("data in handleSubmit", data);
 
     if (
@@ -120,13 +128,13 @@ export function ProfileForm(props: { profile?: Profile | undefined }) {
         handleSubmit(values);
       })}
     >
-      <Container size="sm" pt="xl" mt="xl">
-        <Title order={2}>
+      <Container size="sm">
+        <Title order={2} ta="center">
           {profile
             ? "Update Profile"
             : "Please fill in the information to create your profile."}
         </Title>
-        <SimpleGrid cols={{ base: 1, sm: 2 }} mt="xl">
+        <Stack gap="lg" mt="xl">
           <NumberInput
             label="Age"
             placeholder="Age"
@@ -137,7 +145,6 @@ export function ProfileForm(props: { profile?: Profile | undefined }) {
             key={form.key("age")}
             {...form.getInputProps("age")}
           />
-
           <Select
             label="Select Your Gender"
             placeholder="Select Your Gender"
@@ -146,8 +153,6 @@ export function ProfileForm(props: { profile?: Profile | undefined }) {
             key={form.key("gender")}
             {...form.getInputProps("gender")}
           />
-        </SimpleGrid>
-        <SimpleGrid cols={{ base: 1, sm: 2 }} mt="xl">
           <NumberInput
             label="Height"
             placeholder="Height in cm"
@@ -170,8 +175,6 @@ export function ProfileForm(props: { profile?: Profile | undefined }) {
             key={form.key("weight")}
             {...form.getInputProps("weight")}
           />
-        </SimpleGrid>
-        <SimpleGrid cols={{ base: 1, sm: 2 }} mt="xl">
           <Select
             label="Select your activity level"
             placeholder="Select your activity level"
@@ -188,10 +191,10 @@ export function ProfileForm(props: { profile?: Profile | undefined }) {
             key={form.key("exerciseExperience")}
             {...form.getInputProps("exerciseExperience")}
           />
-        </SimpleGrid>
+        </Stack>
 
         <Group justify="center" mt="xl">
-          <Button type="submit" size="md">
+          <Button type="submit" size="md" loading={loading}>
             {profile ? "Update Profile" : "Create Profile"}
           </Button>
         </Group>

@@ -1,4 +1,3 @@
-export const maxDuration = 60;
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 
@@ -9,6 +8,7 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
   project: process.env.OPENAI_PROJECT_ID,
   organization: process.env.OPENAI_ORG_ID,
+  timeout: 60000,
 });
 
 export const openaiRouter = createTRPCRouter({
@@ -41,9 +41,9 @@ export const openaiRouter = createTRPCRouter({
             workoutType: "workout type",
             exercises: [
               {
-                name: "Treadmill Running",
+                name: "Burpees",
                 sets: 1,
-                reps: "30 minutes",
+                reps: "10 reps",
               },
               {
                 name: "Elliptical Machine",
@@ -83,7 +83,16 @@ export const openaiRouter = createTRPCRouter({
 
             Make sure to cover all the muscle areas split in the week (Back, Chest, Biceps, Triceps ...). Make sure that the total duration of those exercises are approximately the workout duration. Make sure you only split it to how many days are mentioned in the Workout Frequency by the user during the week. Do not give more days then the user mentioned in the Workout Frequency.
 
-            If there are empty days, you can fill them with rest days and nothing else. If possible based on the schedule, put the rest days inbetween and not one after the other. DO NOT put the rest days one after the other. Make sure to include a warm-up and cool-down routine in each workout session. Make sure to include a variety of exercises to target different muscle groups. Make sure to include the number of sets and reps for each exercise. Make sure to include any additional tips or notes for the user. Make sure to include the type of workout for each day (e.g., Cardio, Strength Training, Flexibility, etc.). Make sure to include the exact gym exercise names for each exercise.
+            If there are empty days, you can fill them with rest days and nothing else, the workoutType of rest days shoudl exactly say "Rest Day". If possible based on the schedule, put the rest days inbetween and not one after the other. DO NOT put the rest days one after the other. Make sure to include a warm-up and cool-down routine in each workout session. Make sure to include a variety of exercises to target different muscle groups. Make sure to include the number of sets and reps for each exercise. Make sure to include any additional tips or notes for the user. Make sure to include the type of workout for each day (e.g., Cardio, Strength Training, Flexibility, etc.). Make sure to include the exact gym exercise names for each exercise.
+
+            If the Workout frequency is ONE_DAY, then there must be 6 Rest Days in the plan.
+            If the Workout frequency is TWO_DAYS, then there must be 5 Rest Days in the plan.
+            If the Workout frequency is THREE_DAYS, then there must be 4 Rest Days in the plan.
+            If the Workout frequency is FOUR_DAYS, then there must be 3 Rest Days in the plan.
+            If the Workout frequency is FIVE_DAYS, then there must be 2 Rest Days in the plan.
+            If the Workout frequency is SIX_DAYS, then there must be 1 Rest Day in the plan.
+            If the Workout frequency is SEVEN_DAYS, then there must be 0 Rest Days in the plan.
+
     `;
 
       console.log("IN OPENAI ROUTER");
@@ -96,12 +105,13 @@ export const openaiRouter = createTRPCRouter({
               role: "system",
               content:
                 "You are a gym trainer. You are going to give a workout plan based on the user's details. Give the response in valid JSON format" +
-                "The data schema should look like this: " +
+                "The data schema should always look like this. Ensure the types of the response match the types of the example, everything must be a string type, only the sets must be a number: " +
                 JSON.stringify(exampleJSON),
             },
             { role: "user", content: systemContent },
           ],
-          temperature: 0.5,
+          temperature: 0,
+          stream: false,
         })
         .then((res) => {
           return res;

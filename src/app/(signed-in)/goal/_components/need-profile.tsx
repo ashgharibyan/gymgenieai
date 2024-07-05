@@ -4,9 +4,9 @@ import React from "react";
 
 export default function NeedProfle() {
   return (
-    <Center h={300}>
+    <Center>
       <Stack justify="center" align="center">
-        <Text ta="center" size={rem(42)} fw={700}>
+        <Text ta="center" size={rem(24)} fw={700}>
           Please{" "}
           <Text
             component="span"
@@ -19,7 +19,7 @@ export default function NeedProfle() {
           before setting a goal.
         </Text>
         <Anchor href="/profile">
-          <Button radius="lg" size="xl" variant="gradient">
+          <Button radius="lg" size="md" variant="gradient">
             Create Profile
           </Button>
         </Anchor>

@@ -1,62 +1,40 @@
 "use client";
 
-import { Button, Container, Title } from "@mantine/core";
+import { Container, Stack, Text, Title } from "@mantine/core";
 import { type Goal, type Profile } from "@prisma/client";
-import { useRouter } from "next/navigation";
 import React from "react";
-import { api } from "~/trpc/react";
+import GenerateWorkoutButton from "./generate-workout-button";
+
+type ProfileWithWorkoutPlan = Profile & {
+  workoutPlan: {
+    id: number;
+  } | null;
+};
 
 export default function CreateWorkout(props: {
-  profile: Profile | undefined;
+  profile: ProfileWithWorkoutPlan | undefined;
   goal: Goal | undefined;
 }) {
   const { profile, goal } = props;
-  const router = useRouter();
-
-  const generateWorkouts =
-    profile && goal
-      ? api.openai.generateWorkout.useQuery(
-          {
-            profile,
-            goal,
-          },
-          {
-            enabled: false,
-          }
-        )
-      : undefined;
-
-  const createWorkoutPlan = api.workoutPlan.create.useMutation({
-    onSuccess: () => {
-      router.refresh();
-    },
-    onError: (error) => {
-      console.error("Error creating workout plan", error);
-    },
-  });
-
-  const handleCreateWorkouts = async () => {
-    if (!profile || !goal) {
-      console.log("Profile or Goal is undefined");
-      return;
-    }
-
-    const workouts = await generateWorkouts?.refetch();
-
-    if (!workouts?.data) {
-      console.log("Workouts are undefined");
-      return;
-    }
-    createWorkoutPlan.mutate({
-      profileId: profile.id,
-      workouts: workouts.data.workouts,
-    });
-  };
 
   return (
     <Container>
-      <Title>No Workouts Generated Yet</Title>
-      <Button onClick={handleCreateWorkouts}>Create Workout</Button>
+      <Stack mt="md" gap="lg">
+        <Title ta="center" order={2}>
+          You don&apos;t have a workout plan.
+        </Title>
+        <Text ta="center">
+          Please press &quot;Generate Workout Plan&quot; to generate a workout
+          plan tailored for your profile and goal.
+        </Text>
+        <Stack gap="xs">
+          <GenerateWorkoutButton profile={profile} goal={goal} update={false} />
+          <Text ta="center" c="dimmed">
+            This might take some time, as our Open AI powered system will
+            generate your plan to fitness success. Please be patient.
+          </Text>
+        </Stack>
+      </Stack>
     </Container>
   );
 }

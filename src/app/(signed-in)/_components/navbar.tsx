@@ -17,9 +17,9 @@ import { usePathname } from "next/navigation";
 const data = [
   { link: "/dashboard", label: "Dashboard", icon: IconDashboard },
   { link: "/workouts", label: "Workouts", icon: IconGymnastics },
-  { link: "/meals", label: "Meals", icon: IconMeat },
+  // { link: "/meals", label: "Meals", icon: IconMeat },
   { link: "/goal", label: "Goal", icon: IconTarget },
-  { link: "/progress", label: "Progress", icon: IconProgress },
+  // { link: "/progress", label: "Progress", icon: IconProgress },
 ];
 
 export function Navbar() {

@@ -1,7 +1,10 @@
 "use client";
 
-import { Container, Title } from "@mantine/core";
+import { Box, Group, Title } from "@mantine/core";
 import React from "react";
+import WorkoutCard from "./workout-card";
+import GenerateWorkoutButton from "./generate-workout-button";
+import { type Goal, type Profile } from "@prisma/client";
 
 type WorkoutPlanWithWorkouts = {
   id: number;
@@ -19,32 +22,26 @@ type WorkoutPlanWithWorkouts = {
     notes: string;
   }[];
 };
-
+type ProfileWithWorkoutPlan = Profile & {
+  workoutPlan: {
+    id: number;
+  } | null;
+};
 export default function WorkoutList(props: {
   workoutPlan: WorkoutPlanWithWorkouts;
+  profile: ProfileWithWorkoutPlan | undefined;
+  goal: Goal | undefined;
 }) {
-  const { workoutPlan } = props;
+  const { workoutPlan, profile, goal } = props;
   return (
-    <Container>
-      <Title> You Have Workouts</Title>
-      {workoutPlan.workouts.map((workout) => {
-        return (
-          <div key={workout.id}>
-            <Title order={3}>{workout.day}</Title>
-            <Title order={4}>{workout.workoutType}</Title>
-            <ul>
-              {workout.exercises.map((exercise) => {
-                return (
-                  <li key={exercise.id}>
-                    {exercise.name} - {exercise.sets} sets - {exercise.reps}
-                  </li>
-                );
-              })}
-            </ul>
-            <p>{workout.notes}</p>
-          </div>
-        );
-      })}
-    </Container>
+    <Box px="lg">
+      <Group justify="space-between" align="center" mb="lg">
+        <Title> Your Personalized Workout Plan</Title>
+        <GenerateWorkoutButton profile={profile} goal={goal} update={true} />
+      </Group>
+      {workoutPlan.workouts.map((workout) => (
+        <WorkoutCard key={workout.id} workoutDay={workout} />
+      ))}
+    </Box>
   );
 }

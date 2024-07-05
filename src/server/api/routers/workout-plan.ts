@@ -58,4 +58,78 @@ export const workoutPlanRouter = createTRPCRouter({
 
       return workoutPlan;
     }),
+
+  update: protectedProcedure
+    .input(
+      z.object({
+        workoutPlanId: z.number(),
+        profileId: z.number(),
+        workouts: z.array(
+          z.object({
+            day: z.string(),
+            workoutType: z.string(),
+            exercises: z.array(
+              z.object({
+                name: z.string(),
+                sets: z.number(),
+                reps: z.string(),
+              })
+            ),
+            notes: z.string(),
+          })
+        ),
+      })
+    )
+    .mutation(async ({ input }) => {
+      const workoutDays = input.workouts;
+
+      await db.exercise.deleteMany({
+        where: {
+          WorkoutDay: {
+            WorkoutPlanId: input.workoutPlanId,
+          },
+        },
+      });
+
+      await db.workoutDay.deleteMany({
+        where: {
+          WorkoutPlanId: input.workoutPlanId,
+        },
+      });
+      const workouts = {
+        workouts: {
+          create: workoutDays.map((workout) => ({
+            day: workout.day,
+            workoutType: workout.workoutType,
+            exercises: {
+              create: workout.exercises.map((exercise) => ({
+                name: exercise.name,
+                sets: exercise.sets,
+                reps: exercise.reps,
+              })),
+            },
+            notes: workout.notes,
+          })),
+        },
+      };
+
+      const workoutPlan = await db.workoutPlan.update({
+        where: {
+          id: input.workoutPlanId,
+        },
+        data: {
+          ...workouts,
+          profileId: input.profileId,
+        },
+        include: {
+          workouts: {
+            include: {
+              exercises: true,
+            },
+          },
+        },
+      });
+
+      return workoutPlan;
+    }),
 });
