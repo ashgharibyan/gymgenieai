@@ -5,6 +5,12 @@ import { env } from "~/env";
 import { appRouter } from "~/server/api/root";
 import { createTRPCContext } from "~/server/api/trpc";
 
+export const config = {
+  maxDuration: 55,
+};
+export const maxDuration = 55;
+export const dynamic = "force-dynamic";
+
 /**
  * This wraps the `createTRPCContext` helper and provides the required context for the tRPC API when
  * handling a HTTP request (e.g. when you make requests from Client Components).
