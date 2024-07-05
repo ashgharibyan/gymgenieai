@@ -1,6 +1,3 @@
-export const maxDuration = 55;
-export const dynamic = "force-dynamic";
-
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import React from "react";
 import { api } from "~/trpc/server";

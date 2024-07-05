@@ -1,5 +1,3 @@
-export const maxDuration = 55;
-export const dynamic = "force-dynamic";
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 
@@ -43,9 +41,9 @@ export const openaiRouter = createTRPCRouter({
             workoutType: "workout type",
             exercises: [
               {
-                name: "Treadmill Running",
+                name: "Burpees",
                 sets: 1,
-                reps: "30 minutes",
+                reps: "10 reps",
               },
               {
                 name: "Elliptical Machine",
@@ -98,7 +96,7 @@ export const openaiRouter = createTRPCRouter({
               role: "system",
               content:
                 "You are a gym trainer. You are going to give a workout plan based on the user's details. Give the response in valid JSON format" +
-                "The data schema should always look like this: " +
+                "The data schema should always look like this. Ensure the types of the response match the types of the example, everything must be a string type, only the sets must be a number: " +
                 JSON.stringify(exampleJSON),
             },
             { role: "user", content: systemContent },

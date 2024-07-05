@@ -6,8 +6,6 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { api } from "~/trpc/react";
 
-export const maxDuration = 55;
-
 export type ProfileWithWorkoutPlan = Profile & {
   workoutPlan: {
     id: number;
