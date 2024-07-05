@@ -175,7 +175,7 @@ export function GoalForm(props: { goal?: Goal | null; profileId: number }) {
         </SimpleGrid>
 
         <Group justify="center" mt="xl">
-          <Button type="submit" size="md" loading={true}>
+          <Button type="submit" size="md" loading={loading}>
             {goal ? "Update Goal" : "Create Goal"}
           </Button>
         </Group>

@@ -1,8 +1,9 @@
 "use client";
 
 import React from "react";
-import { WorkoutPlan, type Goal, type Profile } from "@prisma/client";
+import { type Goal, type Profile } from "@prisma/client";
 import {
+  Anchor,
   Box,
   Group,
   Paper,
@@ -53,70 +54,50 @@ export default function Dashboard(props: {
         <Title order={2}>Dashboard</Title>
         <Text>Welcome {username}</Text>
       </Group>
-      <SimpleGrid cols={3} mt="lg">
-        <Paper
-          shadow="md"
-          radius="lg"
-          withBorder
-          p="xl"
-          bg="primary.3"
-          c="white"
-          fw={900}
-          fz="h2"
-        >
-          Profile
+      <SimpleGrid cols={2} mt="lg">
+        <Paper shadow="md" radius="lg" withBorder p="xl" bg="primary.3">
+          <Group justify="space-between">
+            <Title order={2} fw={900} c="white">
+              Profile
+            </Title>
+            <Anchor href="/profile" c="white">
+              View Profile
+            </Anchor>
+          </Group>
         </Paper>
-        <Paper
-          shadow="md"
-          radius="lg"
-          withBorder
-          p="xl"
-          bg="primary.4"
-          c="white"
-          fw={900}
-          fz="h2"
-        >
-          Goal
-        </Paper>
-        <Paper
-          shadow="md"
-          radius="lg"
-          withBorder
-          p="xl"
-          bg="primary.5"
-          c="white"
-          fw={900}
-          fz="h2"
-        >
-          Workout Plan
+        <Paper shadow="md" radius="lg" withBorder p="xl" bg="primary.4">
+          <Group justify="space-between">
+            <Title order={2} fw={900} c="white">
+              Goal
+            </Title>
+            <Anchor href="/goal" c="white">
+              View Goal
+            </Anchor>
+          </Group>
         </Paper>
       </SimpleGrid>
-      <SimpleGrid cols={3} mt="lg">
+      <SimpleGrid cols={2} mt="lg">
         <Stack>
           <Paper shadow="md" radius="lg" withBorder p="xl">
             <Stack gap={0}>
               <Title order={4}>Age: {profile.age} years old</Title>
             </Stack>
-          </Paper>
-          <Paper shadow="md" radius="lg" withBorder p="xl">
+
             <Stack gap={0}>
               <Title order={4}>Weight: {profile.weight} lb</Title>
             </Stack>
-          </Paper>
-          <Paper shadow="md" radius="lg" withBorder p="xl">
+
             <Stack gap={0}>
               <Title order={4}>Height: {profile.height} cm</Title>
             </Stack>
-          </Paper>
-          <Paper shadow="md" radius="lg" withBorder p="xl">
+
             <Stack gap={0}>
               <Title order={4}>
                 Activity Level:{" "}
                 {activityLevelReverseMapping[profile.activityLevel]}
               </Title>
             </Stack>
-          </Paper>
-          <Paper shadow="md" radius="lg" withBorder p="xl">
+
             <Stack gap={0}>
               <Title order={4}>
                 Experience:{" "}
@@ -132,29 +113,25 @@ export default function Dashboard(props: {
                 Goal: {primaryGoalReverseMapping[goal.goalType]}
               </Title>
             </Stack>
-          </Paper>
-          <Paper shadow="md" radius="lg" withBorder p="xl">
+
             <Stack gap={0}>
               <Title order={4}>
                 Location Preference:{" "}
                 {locationPreferenceReverseMapping[goal.locationPreference]}
               </Title>
             </Stack>
-          </Paper>
-          <Paper shadow="md" radius="lg" withBorder p="xl">
+
             <Stack gap={0}>
               <Title order={4}>Target Weight: {goal.targetWeight} lbs</Title>
             </Stack>
-          </Paper>
-          <Paper shadow="md" radius="lg" withBorder p="xl">
+
             <Stack gap={0}>
               <Title order={4}>
                 Workout Duration:{" "}
                 {workoutDurationReverseMapping[goal.workoutDuration]}
               </Title>
             </Stack>
-          </Paper>
-          <Paper shadow="md" radius="lg" withBorder p="xl">
+
             <Stack gap={0}>
               <Title order={4}>
                 Workout Frequency:{" "}
@@ -163,25 +140,45 @@ export default function Dashboard(props: {
             </Stack>
           </Paper>
         </Stack>
+      </SimpleGrid>
+      <Paper
+        mt="xl"
+        shadow="md"
+        radius="lg"
+        withBorder
+        p="xl"
+        bg="primary.5"
+        c="white"
+        fw={900}
+        fz="h2"
+      >
+        <Group justify="space-between">
+          <Title order={2} fw={900}>
+            Workout Plan
+          </Title>
+          <Anchor href="/workouts" c="white">
+            View Workout Plan
+          </Anchor>
+        </Group>
         <Stack>
-          {workoutPlan.workouts.map((workout, idx) => (
-            <Paper
-              key={idx}
-              shadow="md"
-              radius="lg"
-              withBorder
-              p="xl"
-              bg={workout.workoutType === "Rest Day" ? "gray" : "white"}
-            >
-              <Stack gap={0}>
+          <SimpleGrid cols={2} mt="md">
+            {workoutPlan.workouts.map((workout, idx) => (
+              <Paper
+                key={idx}
+                shadow="md"
+                radius="md"
+                withBorder
+                p="md"
+                c="black"
+              >
                 <Title order={4}>
                   {workout.day}: {workout.workoutType}
                 </Title>
-              </Stack>
-            </Paper>
-          ))}
+              </Paper>
+            ))}
+          </SimpleGrid>
         </Stack>
-      </SimpleGrid>
+      </Paper>
     </Box>
   );
 }

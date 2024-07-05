@@ -1,11 +1,9 @@
 "use client";
 
 import { Alert, Button } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
 import { type Goal, type Profile } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import { set } from "zod";
 import { api } from "~/trpc/react";
 
 export type ProfileWithWorkoutPlan = Profile & {
