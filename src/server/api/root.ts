@@ -1,3 +1,5 @@
+export const maxDuration = 55;
+
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 import { userRouter } from "./routers/user";
 import { profileRouter } from "./routers/profile";
