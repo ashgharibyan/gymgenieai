@@ -12,6 +12,7 @@ import {
 import { isNotEmpty, useForm } from "@mantine/form";
 import { type Profile } from "@prisma/client";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import {
   ActivityLevelMapping,
   ActivityLevelOptions,
@@ -29,6 +30,7 @@ import { api } from "~/trpc/react";
 export function ProfileForm(props: { profile?: Profile | undefined }) {
   const { profile } = props;
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const form = useForm<ProfileWithoutGoalType>({
     mode: "uncontrolled",
@@ -58,25 +60,31 @@ export function ProfileForm(props: { profile?: Profile | undefined }) {
 
   const createProfile = api.profile.create.useMutation({
     onSuccess: (data) => {
+      setLoading(false);
       console.log("Successfully created profile with data", data);
       router.push("/dashboard");
     },
     onError: (err) => {
+      setLoading(false);
       console.log("Error creating profile", err);
     },
   });
 
   const updateProfile = api.profile.update.useMutation({
     onSuccess: (data) => {
+      setLoading(false);
       console.log("Successfully updated profile with data", data);
       router.push("/dashboard");
     },
     onError: (err) => {
+      setLoading(false);
+
       console.log("Error creating profile", err);
     },
   });
 
   const handleSubmit = (data: ProfileWithoutGoalType) => {
+    setLoading(true);
     console.log("data in handleSubmit", data);
 
     if (
@@ -191,7 +199,7 @@ export function ProfileForm(props: { profile?: Profile | undefined }) {
         </SimpleGrid>
 
         <Group justify="center" mt="xl">
-          <Button type="submit" size="md">
+          <Button type="submit" size="md" loading={loading}>
             {profile ? "Update Profile" : "Create Profile"}
           </Button>
         </Group>

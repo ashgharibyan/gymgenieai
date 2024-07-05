@@ -12,6 +12,7 @@ import {
 import { useForm } from "@mantine/form";
 import { type Goal } from "@prisma/client";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import {
   LocationPreferenceMapping,
   LocationPreferenceOptions,
@@ -33,6 +34,7 @@ import { api } from "~/trpc/react";
 export function GoalForm(props: { goal?: Goal | null; profileId: number }) {
   const { goal } = props;
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const form = useForm<GoalWithoutProgressType>({
     mode: "uncontrolled",
@@ -54,25 +56,31 @@ export function GoalForm(props: { goal?: Goal | null; profileId: number }) {
 
   const createGoal = api.goal.create.useMutation({
     onSuccess: (data) => {
+      setLoading(false);
       console.log("Successfully created goal with data", data);
       router.push("/dashboard");
     },
     onError: (err) => {
+      setLoading(false);
       console.log("Error creating goal", err);
     },
   });
 
   const updateGoal = api.goal.update.useMutation({
     onSuccess: (data) => {
+      setLoading(false);
       console.log("Successfully updated goal with data", data);
       router.push("/dashboard");
     },
     onError: (err) => {
+      setLoading(false);
       console.log("Error creating goal", err);
     },
   });
 
   const handleSubmit = (data: GoalWithoutProgressType) => {
+    setLoading(true);
+
     console.log("data in handleSubmit", data);
 
     if (
@@ -167,7 +175,7 @@ export function GoalForm(props: { goal?: Goal | null; profileId: number }) {
         </SimpleGrid>
 
         <Group justify="center" mt="xl">
-          <Button type="submit" size="md">
+          <Button type="submit" size="md" loading={true}>
             {goal ? "Update Goal" : "Create Goal"}
           </Button>
         </Group>
