@@ -5,9 +5,6 @@ import { env } from "~/env";
 import { appRouter } from "~/server/api/root";
 import { createTRPCContext } from "~/server/api/trpc";
 
-export const config = {
-  maxDuration: 55,
-};
 export const maxDuration = 55;
 export const dynamic = "force-dynamic";
 
