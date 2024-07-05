@@ -1,4 +1,5 @@
 export const maxDuration = 55;
+export const dynamic = "force-dynamic";
 import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "../trpc";
 
