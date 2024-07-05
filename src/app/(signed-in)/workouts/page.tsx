@@ -1,4 +1,4 @@
-export const maxDuration = 60;
+export const maxDuration = 55;
 
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import React from "react";
