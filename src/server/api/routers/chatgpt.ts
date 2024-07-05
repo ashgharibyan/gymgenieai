@@ -84,6 +84,15 @@ export const openaiRouter = createTRPCRouter({
             Make sure to cover all the muscle areas split in the week (Back, Chest, Biceps, Triceps ...). Make sure that the total duration of those exercises are approximately the workout duration. Make sure you only split it to how many days are mentioned in the Workout Frequency by the user during the week. Do not give more days then the user mentioned in the Workout Frequency.
 
             If there are empty days, you can fill them with rest days and nothing else, the workoutType of rest days shoudl exactly say "Rest Day". If possible based on the schedule, put the rest days inbetween and not one after the other. DO NOT put the rest days one after the other. Make sure to include a warm-up and cool-down routine in each workout session. Make sure to include a variety of exercises to target different muscle groups. Make sure to include the number of sets and reps for each exercise. Make sure to include any additional tips or notes for the user. Make sure to include the type of workout for each day (e.g., Cardio, Strength Training, Flexibility, etc.). Make sure to include the exact gym exercise names for each exercise.
+
+            If the Workout frequency is ONE_DAY, then there must be 6 Rest Days in the plan.
+            If the Workout frequency is TWO_DAYS, then there must be 5 Rest Days in the plan.
+            If the Workout frequency is THREE_DAYS, then there must be 4 Rest Days in the plan.
+            If the Workout frequency is FOUR_DAYS, then there must be 3 Rest Days in the plan.
+            If the Workout frequency is FIVE_DAYS, then there must be 2 Rest Days in the plan.
+            If the Workout frequency is SIX_DAYS, then there must be 1 Rest Day in the plan.
+            If the Workout frequency is SEVEN_DAYS, then there must be 0 Rest Days in the plan.
+
     `;
 
       console.log("IN OPENAI ROUTER");
