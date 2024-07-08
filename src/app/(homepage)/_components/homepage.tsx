@@ -8,7 +8,8 @@ import { Faq } from "./faq";
 import { Suspense, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 
-export default function Homepage() {
+// Component that handles the useSearchParams logic
+function ScrollHandler() {
   const { targetRef, scrollIntoView } = useScrollIntoView<HTMLDivElement>({
     offset: 100,
   });
@@ -22,13 +23,17 @@ export default function Homepage() {
     }
   }, [isContact, scrollIntoView]);
 
+  return <ContactUs targetRef={targetRef} />;
+}
+
+export default function Homepage() {
   return (
     <Suspense fallback={<div>Loading...</div>}>
       <>
         <Hero />
         <Features />
         <Faq />
-        <ContactUs targetRef={targetRef} />
+        <ScrollHandler />
       </>
     </Suspense>
   );
