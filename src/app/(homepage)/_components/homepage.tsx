@@ -5,7 +5,7 @@ import { Hero } from "./hero";
 import { Features } from "./features";
 import { ContactUs } from "./contact-us";
 import { Faq } from "./faq";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 
 export default function Homepage() {
@@ -23,11 +23,13 @@ export default function Homepage() {
   }, [isContact, scrollIntoView]);
 
   return (
-    <>
-      <Hero />
-      <Features />
-      <Faq />
-      <ContactUs targetRef={targetRef} />
-    </>
+    <Suspense fallback={<div>Loading...</div>}>
+      <>
+        <Hero />
+        <Features />
+        <Faq />
+        <ContactUs targetRef={targetRef} />
+      </>
+    </Suspense>
   );
 }
