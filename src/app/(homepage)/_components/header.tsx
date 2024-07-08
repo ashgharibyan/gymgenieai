@@ -3,20 +3,14 @@
 import {
   Group,
   Button,
-  UnstyledButton,
-  Text,
   Divider,
-  Center,
   Box,
   Burger,
   Drawer,
-  Collapse,
   ScrollArea,
   rem,
-  useMantineTheme,
   Image,
 } from "@mantine/core";
-import { IconChevronDown } from "@tabler/icons-react";
 import classes from "../_styles/header.module.css";
 import NextImage from "next/image";
 import logohorizontal from "../../../../public/images/logo-horizontal-text.png";
@@ -27,44 +21,12 @@ import {
 } from "@kinde-oss/kinde-auth-nextjs/components";
 import Link from "next/link";
 
-const mockdata = [
-  {
-    title: "Open source",
-    description: "This Pokémons cry is very loud and distracting",
-  },
-  {
-    title: "Free for everyone",
-    description: "The fluid of Smeargles tail secretions changes",
-  },
-  {
-    title: "Documentation",
-    description: "Yanma is capable of seeing 360 degrees without",
-  },
-];
-
 export function Header() {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
-  const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
-  const theme = useMantineTheme();
-
-  const links = mockdata.map((item) => (
-    <UnstyledButton className={classes.subLink} key={item.title}>
-      <Group wrap="nowrap" align="flex-start">
-        <div>
-          <Text size="sm" fw={500}>
-            {item.title}
-          </Text>
-          <Text size="xs" c="dimmed">
-            {item.description}
-          </Text>
-        </div>
-      </Group>
-    </UnstyledButton>
-  ));
 
   return (
-    <Box pb={120}>
+    <Box>
       <header className={classes.header}>
         <Group justify="space-between" h="100%">
           <Link href="/">
@@ -89,7 +51,7 @@ export function Header() {
             <Link href="/about" className={classes.link}>
               About
             </Link>
-            <Link href="#" className={classes.link}>
+            <Link href="/?isContact=true" className={classes.link}>
               Contact
             </Link>
           </Group>
@@ -121,26 +83,18 @@ export function Header() {
         <ScrollArea h={`calc(100vh - ${rem(80)})`} mx="-md">
           <Divider my="sm" />
 
-          <Link href="#" className={classes.link}>
+          <Link href="/" className={classes.link}>
             Home
           </Link>
-          <UnstyledButton className={classes.link} onClick={toggleLinks}>
-            <Center inline>
-              <Box component="span" mr={5}>
-                Features
-              </Box>
-              <IconChevronDown
-                style={{ width: rem(16), height: rem(16) }}
-                color={theme.colors.blue[6]}
-              />
-            </Center>
-          </UnstyledButton>
-          <Collapse in={linksOpened}>{links}</Collapse>
-          <Link href="#" className={classes.link}>
-            Learn
+
+          <Link href="/about" className={classes.link}>
+            About
           </Link>
-          <Link href="#" className={classes.link}>
-            Academy
+          <Link href="/features" className={classes.link}>
+            Features
+          </Link>
+          <Link href="/?isContact=true" className={classes.link}>
+            Contact
           </Link>
 
           <Divider my="sm" />

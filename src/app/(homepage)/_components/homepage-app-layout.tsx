@@ -3,6 +3,7 @@
 import { AppShell } from "@mantine/core";
 import { Header } from "./header";
 import { Footer } from "./footer";
+import React from "react";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (

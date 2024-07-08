@@ -1,15 +1,5 @@
-import { ContactUs } from "./_components/contact-us";
-import { Faq } from "./_components/faq";
-import { Features } from "./_components/features";
-import { Hero } from "./_components/hero";
+import Homepage from "./_components/homepage";
 
 export default async function Home() {
-  return (
-    <>
-      <Hero />
-      <Features />
-      <Faq />
-      <ContactUs />
-    </>
-  );
+  return <Homepage />;
 }
