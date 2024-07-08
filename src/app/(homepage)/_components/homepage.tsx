@@ -7,6 +7,7 @@ import { ContactUs } from "./contact-us";
 import { Faq } from "./faq";
 import { Suspense, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
+import { Loader } from "@mantine/core";
 
 // Component that handles the useSearchParams logic
 function ScrollHandler() {
@@ -28,7 +29,7 @@ function ScrollHandler() {
 
 export default function Homepage() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<Loader color="primary" size="xl" type="dots" />}>
       <>
         <Hero />
         <Features />
