@@ -11,11 +11,13 @@ import {
   Text,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { useEffect, useState } from "react";
+import { type MutableRefObject, useEffect, useState } from "react";
 import { type EmailFormData } from "~/types/types";
 import { sendEmail } from "~/utils/send-email";
 
-export function ContactUs() {
+export function ContactUs(props: {
+  targetRef: MutableRefObject<HTMLDivElement>;
+}) {
   const [formSubmitted, setFormSubmitted] = useState(false);
 
   useEffect(() => {
@@ -67,7 +69,7 @@ export function ContactUs() {
         handleSubmit(values);
       })}
     >
-      <Container size="sm" pt="xl" mt="xl">
+      <Container size="sm" pt="xl" mt="xl" ref={props.targetRef}>
         <Title
           order={2}
           size="h1"

@@ -31,7 +31,7 @@ export function AboutHero() {
               </Text>{" "}
             </Title>
 
-            <Text className={classes.description} mt={100}>
+            <Text className={classes.description} mt={50}>
               Our product is a cutting-edge health and fitness website designed
               to help individuals improve their overall well-being by focusing
               on diet and fitness. Users can input their health and nutritional
@@ -63,7 +63,7 @@ export function AboutHero() {
                 size="lg"
                 variant="filled"
                 color="pink"
-                mt={50}
+                my="xl"
               >
                 Learn More
               </Button>
